@@ -1,0 +1,60 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="happymachines" translate="label" sortOrder="1">
+            <label>HappyMachines</label>
+        </tab>
+        <section id="custom_forms" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10"
+                 translate="label">
+            <label>Custom Forms</label>
+            <tab>happymachines</tab>
+            <resource>HappyMachines_CustomForms::config_happymachines_customforms</resource>
+            <group id="general" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+                <label>General</label>
+                <field id="enabled" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label"
+                       type="select">
+                    <label>Enable Custom Forms</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="email" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+                <label>Email</label>
+                <field id="sender_identity" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label"
+                       type="select">
+                    <label>Email Sender Identity</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                </field>
+            </group>
+            <group id="formbuilder" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+                <label>Form Builder</label>
+                <field id="edit_on_add" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label"
+                       type="select">
+                    <label>Initialize Editor On Add</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Automatically opens the editor view whenever a new field is added to the form builder.</comment>
+                </field>
+                <field id="scroll_to_field_on_add" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label"
+                       type="select">
+                    <label>Scroll To Field On Add</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>When adding new fields to the form builder, automatically scroll to the new field.</comment>
+                </field>
+                <field id="confirm_field_delete" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label"
+                       type="select">
+                    <label>Confirm Field Deletion</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>When enabled, a confirmation popup will be displayed when deleting fields in the form builder.</comment>
+                </field>
+            </group>
+            <group id="developer" showInDefault="1" sortOrder="10" translate="label">
+                <label>Developer</label>
+                <field id="enable_json_preview" showInDefault="1" translate="label" type="select">
+                    <label>Enable Form Builder JSON Preview</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>When enabled, a button will be added to the form builder to allow you to preview the form's JSON data.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

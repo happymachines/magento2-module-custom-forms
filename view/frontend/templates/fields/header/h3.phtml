@@ -1,0 +1,10 @@
+<?php
+/** @var \Magento\Framework\View\Element\Template $block */
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var \HappyMachines\CustomForms\ViewModel\Form\Field|\HappyMachines\CustomForms\Model\Form\Field $fieldViewModel */
+
+$fieldViewModel = $block->getViewModel();
+?>
+<h3 class="<?= $escaper->escapeHtmlAttr($fieldViewModel->getClassName()) ?>" <?= $fieldViewModel->getFieldAttributes() ?>>
+    <span><?= __($fieldViewModel->getLabel()) ?></span>
+</h3>

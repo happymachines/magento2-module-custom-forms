@@ -1,0 +1,31 @@
+<!--@subject {{trans "New %form_name submission received" form_name=$form_name}} @-->
+<!--@vars {
+"var form_name":"Form Name",
+"var customer_email":"Customer email",
+"var submitted_data_table":"Form Submission Data - Table Display",
+"var quote_items_table":"Quote Items - Table Display"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<table>
+    <tr>
+        <td>
+            <h1>{{trans "A new %form_name submission has been received." form_name=$form_name}}</h1>
+            {{depend customer_email}}
+                <p>
+                    {{trans "The form was submitted by the customer associated with the email "}}
+                    {{trans '<a href="mailto:%customer_email">%customer_email</a>.' customer_email=$customer_email|raw}}
+                </p>
+            {{/depend}}
+            <h3>{{trans "Submitted Data"}}</h3>
+            {{var submitted_data_table|raw}}
+            {{depend quote_items_table}}
+                <h3>{{trans "Quote Items"}}</h3>
+                {{var quote_items_table|raw}}
+            {{/depend}}
+        </td>
+    </tr>
+</table>
+
+{{template config_path="design/email/footer_template"}}

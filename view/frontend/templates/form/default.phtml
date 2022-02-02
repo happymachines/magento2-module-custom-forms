@@ -1,0 +1,46 @@
+<?php
+/** @var \HappyMachines\CustomForms\Block\Form $block */
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var \HappyMachines\CustomForms\ViewModel\Form\Form|\HappyMachines\CustomForms\Model\Form $formViewModel */
+
+$formViewModel = $block->getViewModel();
+?>
+<?php if ($formViewModel->isActive()): ?>
+    <div class="happymachines-customform happymachines-customform-container">
+        <?php if ($formViewModel->getBeforeFormContent()): ?>
+            <div class="happymachines-customform-before-form-content">
+                <?= $formViewModel->filterContent($formViewModel->getBeforeFormContent()) ?>
+            </div>
+        <?php endif; ?>
+        <form id="happymachines-customform-<?= $formViewModel->getIdentifier() ?>" class="form happymachines-customform-form happymachines-customform-<?= $formViewModel->getIdentifier() ?> <?= $formViewModel->getIdentifier() ?>"
+              method="post" action="<?= $escaper->escapeUrl($formViewModel->getFormActionUrl()) ?>" enctype="multipart/form-data"
+              data-hasRequired="<?= $escaper->escapeHtmlAttr(__('* Required Fields')) ?>">
+            <?= $block->getBlockHtml('formkey') ?>
+            <input name="form_id" type="hidden" value="<?= $escaper->escapeHtmlAttr($formViewModel->getIdentifier()) ?>" />
+            <?= $block->getChildHtml('form.fields') ?>
+            <?php if ($formViewModel->isRecaptchaEnabled()): ?>
+                <?= $block->getChildHtml($block->getRecaptchaBlockName()) ?>
+            <?php endif; ?>
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <button type="submit" class="action submit primary">
+                        <span><?= $block->escapeHtml(__($formViewModel->getFormSubmitButtonText())) ?></span>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <?php if ($formViewModel->getAfterFormContent()): ?>
+            <div class="happymachines-customform-after-form-content">
+                <?= $formViewModel->filterContent($formViewModel->getAfterFormContent()) ?>
+            </div>
+        <?php endif; ?>
+    </div>
+    <script type="text/x-magento-init">
+        {
+            "#happymachines-customform-<?= $formViewModel->getIdentifier() ?>": {
+                "happymachines/customforms/render": {"formData": <?= $formViewModel->getFormData() ?>},
+                "validation": {}
+            }
+        }
+    </script>
+<?php endif; ?>

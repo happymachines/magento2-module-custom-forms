@@ -1,0 +1,39 @@
+<?php
+/** @var \Magento\Directory\Block\Data|\Magento\Framework\View\Element\Template $block */
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var \HappyMachines\CustomForms\ViewModel\Form\Field\Address|\HappyMachines\CustomForms\Model\Form\Field $fieldViewModel */
+
+$fieldViewModel = $block->getViewModel();
+$countryOptions = $block->getCountryCollection()->setForegroundCountries($this->getTopDestinations())->toOptionArray();
+?>
+<div class="field <?= $escaper->escapeHtmlAttr($fieldViewModel->getName()) ?> <?= $escaper->escapeHtmlAttr($fieldViewModel->getClassName()) ?> <?= $escaper->escapeHtmlAttr($fieldViewModel->getRequiredFieldClass()) ?>">
+    <label class="label" for="<?= $escaper->escapeHtmlAttr($fieldViewModel->getName()) ?>">
+        <span><?= __($block->escapeHtml($fieldViewModel->getLabel())) ?></span>
+    </label>
+    <div class="control">
+        <select name="<?= $escaper->escapeHtmlAttr($fieldViewModel->getName()) ?>"
+                title="<?= __($block->escapeHtml($fieldViewModel->getLabel())) ?>"
+                id="<?= $escaper->escapeHtmlAttr($fieldViewModel->getName()) ?>"
+                class="validate-select input-text <?= $escaper->escapeHtmlAttr($fieldViewModel->getInputClassName()) ?>"
+                <?= $fieldViewModel->getFieldAttributes() ?>>
+            <?php foreach ($countryOptions as $option): ?>
+                <option value="<?= $option['value'] ?>" label="<?= __($option['label']) ?>" <?= $fieldViewModel->getDefaultSelectedCountry($option['value']) ?>><?= __($option['label']) ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+</div>
+<script type="text/x-magento-init">
+    {
+        "#happymachines-customform-<?= $block->getForm()->getIdentifier() ?> <?= $fieldViewModel->getAddressInputFieldSelector('select', 'country') ?>": {
+            "regionUpdater": {
+                "optionalRegionAllowed": <?= $fieldViewModel->getOptionalRegionAllowed() ?>,
+                "regionListId": "#happymachines-customform-<?= $block->getForm()->getIdentifier() ?> <?= $fieldViewModel->getAddressInputFieldSelector('select', 'region') ?>",
+                "regionInputId": "#happymachines-customform-<?= $block->getForm()->getIdentifier() ?> <?= $fieldViewModel->getAddressInputFieldSelector('input[type=text]', 'region') ?>",
+                "postcodeId": "#happymachines-customform-<?= $block->getForm()->getIdentifier() ?> <?= $fieldViewModel->getAddressInputFieldSelector('input[type=text]', 'zipcode') ?>",
+                "form": "#happymachines-customform-<?= $block->getForm()->getIdentifier() ?>",
+                "regionJson": <?= /* @noEscape */ $fieldViewModel->getRegionJson() ?>,
+                "countriesWithOptionalZip": <?= /* @noEscape */ $fieldViewModel->getCountriesWithOptionZip() ?>
+            }
+        }
+    }
+</script>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <custom_forms>
+            <general>
+                <enabled>1</enabled>
+            </general>
+            <email>
+                <sender_identity>general</sender_identity>
+            </email>
+            <formbuilder>
+                <edit_on_add>1</edit_on_add>
+                <scroll_to_field_on_add>0</scroll_to_field_on_add>
+                <confirm_field_delete>1</confirm_field_delete>
+            </formbuilder>
+            <developer>
+                <enable_json_preview>0</enable_json_preview>
+            </developer>
+        </custom_forms>
+    </default>
+</config>

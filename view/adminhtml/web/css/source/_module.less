@@ -1,0 +1,294 @@
+@import 'module/_conditions.less';
+
+@form-builder__stage__width: 80%;
+@form-builder__control-panel__width: calc((100% - @form-builder__stage__width));
+@form-builder__color-remove: #ffddee;
+@form-builder__color-remove-rgba: rgba(255, 221, 238, 1);
+@form-builder-option-remove__right: -25px;
+@form-builder-option-selected__width: 16px;
+@form-builder__overlay__z-index: 1000;
+
+//
+//  Form Builder
+//  _____________________________________________
+
+.happymachines-custom-form-builder {
+    .form-wrap {
+        &.form-builder {
+            // Control Panel
+            .cb-wrap {
+                width: @form-builder__control-panel__width;
+            }
+            // Control Panel
+            .frmb {
+                &-control {
+                    background: @color-very-dark-grayish-orange;
+                    border-radius: 0;
+
+                    li {
+                        background: initial;
+                        color: @color-gray65-lighten;
+                        box-shadow: initial;
+                        border-bottom: 1px solid @color-brownie-almost;
+                        transition: all .25s ease;
+
+                        &:first-child, &:last-child {
+                            border-radius: 0;
+                        }
+
+                        &:hover {
+                            background-color: @color-brownie-almost;
+                            color: @color-ivory;
+                        }
+                    }
+                }
+            }
+            // Form Actions
+            .form-actions {
+                &.btn-group {
+                    margin-top: 10px;
+
+                    .btn {
+                        border-radius: 0;
+                        padding: 8px 12px;
+                    }
+                }
+            }
+            // Stage
+            .stage-wrap {
+                width: ~"calc(@{form-builder__stage__width} - 20px)";
+
+                &.empty {
+                    border: 1px solid @form-element-input__border-color;
+
+                    &:before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        height: 100%;
+                        width: 100%;
+                        background: url('@{baseDir}HappyMachines_CustomForms/css/images/form-builder-stage-placeholder.svg') no-repeat center center;
+                    }
+
+                    &:after {
+                        content: 'Drag fields from the control panel here';
+                        top: ~"calc(50% + 50px)";
+                    }
+
+                    &.pull-left {
+                        &:before {
+                            transform: scaleX(-1);
+                        }
+                    }
+                }
+            }
+
+            .form-control {
+                border: 1px solid @form-element-input__border-color;
+                border-radius: @form-element-input__border-radius;
+
+                &:focus {
+                    border-color: @form-element-input__focus__color;
+                }
+            }
+            // Form builder field editors
+            .frmb {
+                .form-elements {
+                    border-radius: 0;
+
+                    label {
+                        &:first-child {
+                            width: 12%;
+                            font-weight: @font-weight__semibold;
+                        }
+                    }
+
+                    .form-group {
+                        &:last-of-type {
+                            margin-bottom: 30px;
+                        }
+                    }
+                }
+
+                li {
+                    padding: 10px;
+
+                    &:first-child {
+                        border-top-right-radius: @form-element-input__border-radius;
+                        border-top-left-radius: @form-element-input__border-radius;
+
+                        .field-actions {
+                            .btn {
+                                &:last-child {
+                                    border-radius: 0;
+                                }
+                            }
+                        }
+                    }
+
+                    &:last-child {
+                        border-bottom-right-radius: @form-element-input__border-radius;
+                        border-bottom-left-radius: @form-element-input__border-radius;
+                    }
+
+                    .field-actions {
+                        .btn {
+                            &:first-child {
+                                border-bottom-left-radius: 0;
+                            }
+
+                            &:last-child {
+                                border-radius: 0;
+                            }
+
+                            height: 31px;
+                            width: 31px;
+                            margin-top: 1px;
+                            background-color: transparent;
+                            color: @text__color;
+                            transition: all .25s ease;
+                        }
+
+                        .toggle-form, .copy-button {
+                            &:hover {
+                                background-color: @color-gray-darken0;
+                            }
+                        }
+
+                        .del-button {
+                            &:hover {
+                                background-color: initial;
+                            }
+                        }
+                    }
+
+                    .field-label {
+                        color: @text__color;
+                    }
+
+
+                    .formbuilder-radio, .formbuilder-checkbox {
+                        display: flex;
+                        align-items: center;
+
+                        input {
+                            margin-right: 5px;
+                        }
+                    }
+
+                    .close-field {
+                        padding: 5px 10px;
+                        bottom: 10px;
+                    }
+                }
+                // Field element with select options
+                .sortable-options {
+                    border-radius: @form-element-input__border-radius;
+
+                    &-wrap {
+                        .notice {
+                            cursor: initial;
+                            margin-left: 2%;
+                        }
+                    }
+
+                    input[type="text"] {
+                        width: ~"calc(48% - @{form-builder-option-selected__width})";
+                    }
+
+                    .option-selected {
+                        width: @form-builder-option-selected__width;
+                    }
+
+                    > li {
+                        display: flex;
+                        align-items: center;
+
+                        .remove {
+                            right: @form-builder-option-remove__right;
+                            font-size: inherit;
+                            height: inherit;
+                            width: inherit;
+                            color: darken(@color-tomato-brick, 10%);
+
+                            &:hover {
+                                background: initial;
+                                color: @color-tomato-brick;
+                            }
+                        }
+                    }
+                }
+                .option-actions {
+                    text-align: left;
+
+                    a {
+                        &:extend(button);
+                    }
+                }
+            }
+            .formbuilder-icon-cancel, .icon-cancel {
+                &:before {
+                    font-family: @icons-admin__font-name;
+                    content: @icon-close-mage__content;
+                }
+            }
+            .action-close {
+                right: @form-builder-option-remove__right;
+                color: darken(@color-tomato-brick, 10%);
+
+                &:hover {
+                    background: initial;
+                    color: @color-tomato-brick;
+                }
+            }
+
+            .dataTypeAddressField-wrap, .dataTypeAddressGroup-wrap {
+                .lib-visibility-hidden();
+            }
+        }
+    }
+
+    .form {
+        &-field {
+            select {
+                width: 100%;
+            }
+
+            .admin__control {
+                &-date {
+                    &.form-control {
+                        display: inline-block;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.forms-form-edit {
+    .form-builder-overlay {
+        z-index: @form-builder__overlay__z-index;
+    }
+
+    .form-builder-dialog {
+        z-index: ~"calc(@{form-builder__overlay__z-index} + 1)";
+        border-radius: 0;
+        overflow: auto;
+        max-height: 100%;
+        padding: 20px;
+        box-shadow: none;
+
+        &.positioned {
+            position: fixed;
+            top: 50% !important;
+            left: 50% !important;
+
+            .button-wrap {
+                &:before {
+                    content: none;
+                }
+            }
+        }
+    }
+}

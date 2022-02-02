@@ -1,0 +1,36 @@
+<?php
+/**
+ * @var \Magento\Framework\View\Element\Template $block
+ * @var \HappyMachines\CustomForms\ViewModel\Adminhtml\FormEmbed $viewModel
+ */
+
+$viewModel = $block->getViewModel();
+?>
+<?php if ($viewModel->getFormId()): ?>
+    <div class="admin__field">
+        <div class="admin__field-label">
+            <label>
+                <span><?= __('Layout Embed') ?></span>
+            </label>
+        </div>
+        <div class="admin__field-control">
+            <textarea class="textarea admin__control-textarea" disabled rows="10" style="resize: none"><?= $viewModel->getLayoutEmbed() ?></textarea>
+            <div class="admin__field-note"><?= __('This code can be used to render the form via layout update.') ?></div>
+        </div>
+    </div>
+    <div class="admin__field">
+        <div class="admin__field-label">
+            <label>
+                <span><?= __('Widget Embed') ?></span>
+            </label>
+        </div>
+        <div class="admin__field-control">
+            <textarea class="textarea admin__control-textarea" disabled rows="10" style="resize: none"><?= $viewModel->getWidgetEmbed() ?></textarea>
+            <div class="admin__field-note"><?= __('This code can be used to render the form via a CMS page or block.') ?></div>
+        </div>
+    </div>
+<?php else: ?>
+<div class="notice">
+    <p class="message"><?= __('Embedding codes will be available after the form has been created.') ?></p>
+</div>
+<?php endif;

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">form_submission_edit.submission_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Submission Information</item>
+    </argument>
+    <settings>
+        <!-- todo export to pdf -->
+        <buttons>
+<!--            <button name="delete" class="HappyMachines\CustomForms\Block\Adminhtml\Form\Edit\DeleteButton"/>-->
+            <button name="back" class="Magento\Cms\Block\Adminhtml\Page\Edit\BackButton"/>
+            <button name="resend_admin_notification" class="HappyMachines\CustomForms\Block\Adminhtml\Submission\Edit\ResendAdminNotification"/>
+            <button name="resend_confirmation" class="HappyMachines\CustomForms\Block\Adminhtml\Submission\Edit\ResendConfirmation"/>
+        </buttons>
+        <namespace>form_submission_edit</namespace>
+        <dataScope>data</dataScope>
+        <layout>
+            <navContainerName>left</navContainerName>
+            <type>tabs</type>
+        </layout>
+        <deps>
+            <dep>form_submission_edit.submission_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="submission_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <dataProvider class="HappyMachines\CustomForms\Ui\DataProvider\Submission\DataProvider" name="submission_data_source">
+            <settings>
+                <requestFieldName>submission_id</requestFieldName>
+                <primaryFieldName>submission_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <htmlContent name="submission_details">
+        <block class="HappyMachines\CustomForms\Block\Adminhtml\Submission\Edit\Tab\SubmissionDetailsTab" name="submission_details_tab" template="HappyMachines_CustomForms::submission/edit/tab/submission-details-tab.phtml">
+            <block  name="submission_details" template="HappyMachines_CustomForms::submission/edit/tab/content/submission-details.phtml">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">HappyMachines\CustomForms\ViewModel\Submission\Submission</argument>
+                </arguments>
+            </block>
+        </block>
+    </htmlContent>
+    <fieldset name="submission_files">
+        <settings>
+            <label translate="true">Submission Files</label>
+        </settings>
+        <insertListing name="form_submission_file_listing">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="render_url" xsi:type="url" path="mui/index/render" />
+                    <item name="filter_url_params" xsi:type="array">
+                        <item name="submission_id" xsi:type="string">*</item>
+                    </item>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="indexField" xsi:type="string">submission_id</item>
+                    </item>
+                </item>
+            </argument>
+            <settings>
+                <autoRender>true</autoRender>
+                <dataScope>form_submission_file_listing</dataScope>
+                <ns>form_submission_file_listing</ns>
+                <externalProvider>form_submission_file_listing.form_submission_file_listing_data_source</externalProvider>
+                <selectionsProvider>form_submission_file_listing.form_submission_file_listing.columns.ids</selectionsProvider>
+                <imports>
+                    <link name="submission_id">${ $.provider }:data.submission_id</link>
+                </imports>
+                <exports>
+                    <link name="submission_id">${ $.externalProvider }:params.submission_id</link>
+                </exports>
+                <externalFilterMode>true</externalFilterMode>
+            </settings>
+        </insertListing>
+    </fieldset>
+</form>

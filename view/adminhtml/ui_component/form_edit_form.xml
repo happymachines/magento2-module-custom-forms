@@ -1,0 +1,652 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">form_edit_form.form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Form Information</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="delete" class="HappyMachines\CustomForms\Block\Adminhtml\Form\Edit\DeleteButton"/>
+            <button name="save_and_continue" class="HappyMachines\CustomForms\Block\Adminhtml\Form\Edit\SaveAndContinueButton"/>
+            <button name="save" class="HappyMachines\CustomForms\Block\Adminhtml\Form\Edit\SaveButton"/>
+            <button name="back" class="Magento\Cms\Block\Adminhtml\Page\Edit\BackButton"/>
+        </buttons>
+        <namespace>form_edit_form</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>form_edit_form.form_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="forms/form/save"/>
+        </settings>
+        <dataProvider class="HappyMachines\CustomForms\Ui\DataProvider\Form\DataProvider" name="form_data_source">
+            <settings>
+                <requestFieldName>form_id</requestFieldName>
+                <primaryFieldName>form_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <fieldset name="general">
+        <settings>
+            <label translate="true">General</label>
+        </settings>
+        <field name="form_id" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">form</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <visible>false</visible>
+                <dataScope>form_id</dataScope>
+            </settings>
+        </field>
+        <field name="name" sortOrder="10" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">form</item>
+                </item>
+            </argument>
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">Form Name</label>
+                <dataScope>name</dataScope>
+            </settings>
+        </field>
+        <field name="identifier" sortOrder="20" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">form</item>
+                </item>
+            </argument>
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">Identifier</label>
+                <dataScope>identifier</dataScope>
+            </settings>
+        </field>
+        <field name="is_active" sortOrder="30" formElement="checkbox">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">form</item>
+                    <item name="default" xsi:type="number">1</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>boolean</dataType>
+                <label translate="true">Enable Form</label>
+                <dataScope>is_active</dataScope>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <valueMap>
+                            <map name="false" xsi:type="number">0</map>
+                            <map name="true" xsi:type="number">1</map>
+                        </valueMap>
+                        <prefer>toggle</prefer>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+    </fieldset>
+    <fieldset name="settings">
+        <settings>
+            <label translate="true">Configuration</label>
+            <collapsible>true</collapsible>
+        </settings>
+        <fieldset name="store_views" sortOrder="10">
+            <settings>
+                <collapsible>true</collapsible>
+                <label translate="true">Form In Stores</label>
+            </settings>
+            <field name="stores" formElement="multiselect" sortOrder="50">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">form</item>
+                        <item name="default" xsi:type="number">0</item>
+                    </item>
+                </argument>
+                <settings>
+                    <validation>
+                        <rule name="required-entry" xsi:type="boolean">true</rule>
+                    </validation>
+                    <dataType>int</dataType>
+                    <tooltip>
+                        <link>https://docs.magento.com/m2/ce/user_guide/configuration/scope.html</link>
+                        <description>What is this?</description>
+                    </tooltip>
+                    <label translate="true">Store View</label>
+                    <dataScope>stores</dataScope>
+                </settings>
+                <formElements>
+                    <multiselect>
+                        <settings>
+                            <options class="Magento\Cms\Ui\Component\Listing\Column\Cms\Options"/>
+                        </settings>
+                    </multiselect>
+                </formElements>
+            </field>
+        </fieldset>
+        <fieldset name="customers" sortOrder="20">
+            <settings>
+                <collapsible>true</collapsible>
+                <label translate="true">Customer Groups</label>
+            </settings>
+            <field name="customer_groups" formElement="multiselect" sortOrder="60">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">form</item>
+                    </item>
+                </argument>
+                <settings>
+                    <validation>
+                        <rule name="required-entry" xsi:type="boolean">true</rule>
+                    </validation>
+                    <dataType>number</dataType>
+                    <label translate="true">Customer Groups</label>
+                    <dataScope>customer_groups</dataScope>
+                </settings>
+                <!-- @see app/code/HappyMachines/CustomForms/Model/Form/Metadata/ValueProvider.php -->
+            </field>
+        </fieldset>
+        <fieldset name="content" sortOrder="30">
+            <settings>
+                <label translate="true">Content</label>
+                <collapsible>true</collapsible>
+            </settings>
+            <fieldset name="before_form" sortOrder="10">
+                <settings>
+                    <collapsible>true</collapsible>
+                    <label translate="true">Before Form</label>
+                </settings>
+                <field name="before_form_content" formElement="wysiwyg" template="ui/form/field">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="source" xsi:type="string">form</item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <dataScope>before_form_content</dataScope>
+                        <label translate="true">Before Form Content</label>
+                    </settings>
+                    <formElements>
+                        <wysiwyg>
+                            <settings>
+                                <wysiwyg>true</wysiwyg>
+                            </settings>
+                        </wysiwyg>
+                    </formElements>
+                </field>
+            </fieldset>
+            <fieldset name="after_form" sortOrder="20">
+                <settings>
+                    <collapsible>true</collapsible>
+                    <label translate="true">After Form</label>
+                </settings>
+                <field name="after_form_content" formElement="wysiwyg" template="ui/form/field">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="source" xsi:type="string">form</item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <dataScope>after_form_content</dataScope>
+                        <label translate="true">After Form Content</label>
+                    </settings>
+                    <formElements>
+                        <wysiwyg>
+                            <settings>
+                                <wysiwyg>true</wysiwyg>
+                            </settings>
+                        </wysiwyg>
+                    </formElements>
+                </field>
+            </fieldset>
+        </fieldset>
+        <fieldset name="email_notifications" sortOrder="40">
+            <settings>
+                <collapsible>true</collapsible>
+                <label translate="true">Email Notifications</label>
+            </settings>
+            <fieldset name="admin_email_notifications">
+                <settings>
+                    <collapsible>true</collapsible>
+                    <label translate="true">Admin Notifications</label>
+                </settings>
+                <field name="enable_admin_notification" formElement="checkbox">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="source" xsi:type="string">form</item>
+                            <item name="default" xsi:type="number">1</item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <validation>
+                            <rule name="required-entry" xsi:type="boolean">true</rule>
+                        </validation>
+                        <dataType>boolean</dataType>
+                        <label translate="true">Enable Admin Notifications</label>
+                        <dataScope>enable_admin_notification</dataScope>
+                    </settings>
+                    <formElements>
+                        <checkbox>
+                            <settings>
+                                <valueMap>
+                                    <map name="false" xsi:type="number">0</map>
+                                    <map name="true" xsi:type="number">1</map>
+                                </valueMap>
+                                <prefer>toggle</prefer>
+                            </settings>
+                        </checkbox>
+                    </formElements>
+                </field>
+                <email name="admin_notification_recipient">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="source" xsi:type="string">form</item>
+                            <item name="notice" xsi:type="string" translate="true">Submitted form responses will be delivered to this email address. For multiple recipients, enter as comma separated emails.</item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <validation>
+                            <rule name="required-entry" xsi:type="boolean">true</rule>
+                        </validation>
+                        <dataType>text</dataType>
+                        <label translate="true">Send Email To</label>
+                        <dataScope>admin_notification_recipient</dataScope>
+                        <imports>
+                            <link name="visible">${$.parentName}.enable_admin_notification:checked</link>
+                        </imports>
+                    </settings>
+                </email>
+                <email name="admin_notification_sender_email">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="source" xsi:type="string">form</item>
+                            <item name="notice" xsi:type="string" translate="true">If left blank, the default sender defined at Stores > Configuration > HappyMachines > Custom Forms > Email > Email Sender Identity will be used.</item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <dataType>text</dataType>
+                        <label translate="true">Sender Email</label>
+                        <dataScope>admin_notification_sender_email</dataScope>
+                        <imports>
+                            <link name="visible">${$.parentName}.enable_admin_notification:checked</link>
+                        </imports>
+                    </settings>
+                </email>
+                <field name="admin_notification_sender_name" formElement="input">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="source" xsi:type="string">form</item>
+                            <item name="notice" xsi:type="string" translate="true">If left blank, the default sender defined at Stores > Configuration > HappyMachines > Custom Forms > Email > Email Sender Identity will be used.</item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <dataType>text</dataType>
+                        <label translate="true">Sender Name</label>
+                        <dataScope>admin_notification_sender_name</dataScope>
+                        <imports>
+                            <link name="visible">${$.parentName}.enable_admin_notification:checked</link>
+                        </imports>
+                    </settings>
+                </field>
+                <email name="admin_notification_reply_to">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="source" xsi:type="string">form</item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <dataType>text</dataType>
+                        <label translate="true">Reply To</label>
+                        <dataScope>admin_notification_reply_to</dataScope>
+                        <imports>
+                            <link name="visible">${$.parentName}.enable_admin_notification:checked</link>
+                        </imports>
+                    </settings>
+                </email>
+                <field name="admin_notification_email_template" formElement="select">
+                    <settings>
+                        <validation>
+                            <rule name="required-entry" xsi:type="boolean">true</rule>
+                        </validation>
+                        <dataType>text</dataType>
+                        <label translate="true">Email Template</label>
+                        <dataScope>admin_notification_email_template</dataScope>
+                        <imports>
+                            <link name="visible">${$.parentName}.enable_admin_notification:checked</link>
+                        </imports>
+                    </settings>
+                    <!-- @see app/code/HappyMachines/CustomForms/Model/Form/Metadata/ValueProvider.php -->
+                </field>
+                <field name="enable_admin_notification_attachments" formElement="checkbox">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="source" xsi:type="string">form</item>
+                            <item name="default" xsi:type="number">1</item>
+                            <item name="notice" xsi:type="string" translate="true">
+                                When enabled, submitted files will be attached to the notification emails.
+                            </item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <validation>
+                            <rule name="required-entry" xsi:type="boolean">true</rule>
+                        </validation>
+                        <dataType>boolean</dataType>
+                        <label translate="true">Enable Email Attachments</label>
+                        <dataScope>enable_admin_notification_attachments</dataScope>
+                        <imports>
+                            <link name="visible">${$.parentName}.enable_admin_notification:checked</link>
+                        </imports>
+                    </settings>
+                    <formElements>
+                        <checkbox>
+                            <settings>
+                                <valueMap>
+                                    <map name="false" xsi:type="number">0</map>
+                                    <map name="true" xsi:type="number">1</map>
+                                </valueMap>
+                                <prefer>toggle</prefer>
+                            </settings>
+                        </checkbox>
+                    </formElements>
+                </field>
+            </fieldset>
+            <fieldset name="submission_confirmations">
+                <settings>
+                    <collapsible>true</collapsible>
+                    <label translate="true">Submission Confirmations</label>
+                </settings>
+                <container name="submission_confirmation_fieldset_notice">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string"><![CDATA[]]></item>
+                            <item name="template" xsi:type="string">ui/form/components/complex</item>
+                            <item name="text" xsi:type="string" translate="true"><![CDATA[<p>The confirmation email will be sent to the field(s) in the Form Builder that has the <strong>Is Customer Email</strong> attribute checked.</p>]]></item>
+                        </item>
+                    </argument>
+                </container>
+                <field name="enable_submission_confirmation" formElement="checkbox">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="source" xsi:type="string">form</item>
+                            <item name="default" xsi:type="number">1</item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <validation>
+                            <rule name="required-entry" xsi:type="boolean">true</rule>
+                            <rule name="validate-formbuilder-has-customer-email-field" xsi:type="boolean">true</rule>
+                        </validation>
+                        <dataType>boolean</dataType>
+                        <label translate="true">Enable Submission Confirmation Emails</label>
+                        <dataScope>enable_submission_confirmation</dataScope>
+                    </settings>
+                    <formElements>
+                        <checkbox>
+                            <settings>
+                                <valueMap>
+                                    <map name="false" xsi:type="number">0</map>
+                                    <map name="true" xsi:type="number">1</map>
+                                </valueMap>
+                                <prefer>toggle</prefer>
+                            </settings>
+                        </checkbox>
+                    </formElements>
+                </field>
+                <email name="submission_confirmation_sender_email">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="source" xsi:type="string">form</item>
+                            <item name="notice" xsi:type="string" translate="true">If left blank, the default sender defined at Stores > Configuration > HappyMachines > Custom Forms > Email > Email Sender Identity will be used.</item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <dataType>text</dataType>
+                        <label translate="true">Sender Email</label>
+                        <dataScope>submission_confirmation_sender_email</dataScope>
+                        <imports>
+                            <link name="visible">${$.parentName}.enable_submission_confirmation:checked</link>
+                        </imports>
+                    </settings>
+                </email>
+                <field name="submission_confirmation_sender_name" formElement="input">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="source" xsi:type="string">form</item>
+                            <item name="notice" xsi:type="string" translate="true">If left blank, the default sender defined at Stores > Configuration > HappyMachines > Custom Forms > Email > Email Sender Identity will be used.</item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <dataType>text</dataType>
+                        <label translate="true">Sender Name</label>
+                        <dataScope>submission_confirmation_sender_name</dataScope>
+                        <imports>
+                            <link name="visible">${$.parentName}.enable_submission_confirmation:checked</link>
+                        </imports>
+                    </settings>
+                </field>
+                <email name="submission_confirmation_reply_to">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="source" xsi:type="string">form</item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <dataType>text</dataType>
+                        <label translate="true">Reply To</label>
+                        <dataScope>submission_confirmation_reply_to</dataScope>
+                        <imports>
+                            <link name="visible">${$.parentName}.enable_submission_confirmation:checked</link>
+                        </imports>
+                    </settings>
+                </email>
+                <field name="submission_confirmation_email_template" formElement="select" sortOrder="20">
+                    <settings>
+                        <validation>
+                            <rule name="required-entry" xsi:type="boolean">true</rule>
+                        </validation>
+                        <dataType>text</dataType>
+                        <label translate="true">Submission Received Email Template</label>
+                        <dataScope>submission_confirmation_email_template</dataScope>
+                        <imports>
+                            <link name="visible">${$.parentName}.enable_submission_confirmation:checked</link>
+                        </imports>
+                    </settings>
+                    <!-- @see app/code/HappyMachines/CustomForms/Model/Form/Metadata/ValueProvider.php -->
+                </field>
+                <field name="enable_submission_confirmation_attachments" sortOrder="30" formElement="checkbox">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="source" xsi:type="string">form</item>
+                            <item name="default" xsi:type="number">1</item>
+                            <item name="notice" xsi:type="string" translate="true">
+                                When enabled, submitted files will be attached to the submission emails.
+                            </item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <validation>
+                            <rule name="required-entry" xsi:type="boolean">true</rule>
+                        </validation>
+                        <dataType>boolean</dataType>
+                        <label translate="true">Enable Email Attachments</label>
+                        <dataScope>enable_submission_confirmation_attachments</dataScope>
+                        <imports>
+                            <link name="visible">${$.parentName}.enable_submission_confirmation:checked</link>
+                        </imports>
+                    </settings>
+                    <formElements>
+                        <checkbox>
+                            <settings>
+                                <valueMap>
+                                    <map name="false" xsi:type="number">0</map>
+                                    <map name="true" xsi:type="number">1</map>
+                                </valueMap>
+                                <prefer>toggle</prefer>
+                            </settings>
+                        </checkbox>
+                    </formElements>
+                </field>
+            </fieldset>
+        </fieldset>
+        <fieldset name="form_submission" sortOrder="50">
+            <settings>
+                <collapsible>true</collapsible>
+                <label translate="true">Form Submission</label>
+            </settings>
+            <field name="enable_recaptcha" sortOrder="10" formElement="checkbox">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">form</item>
+                        <item name="default" xsi:type="number">1</item>
+                        <item name="notice" xsi:type="string" translate="true">
+                            Enables Google reCaptcha on the current form. Google reCaptcha must be configured (Stores > Configuration > Security > Google reCaptcha)
+                        </item>
+                    </item>
+                </argument>
+                <settings>
+                    <validation>
+                        <rule name="required-entry" xsi:type="boolean">true</rule>
+                    </validation>
+                    <dataType>boolean</dataType>
+                    <label translate="true">Enable ReCaptcha</label>
+                    <dataScope>enable_recaptcha</dataScope>
+                </settings>
+                <formElements>
+                    <checkbox>
+                        <settings>
+                            <valueMap>
+                                <map name="false" xsi:type="number">0</map>
+                                <map name="true" xsi:type="number">1</map>
+                            </valueMap>
+                            <prefer>toggle</prefer>
+                        </settings>
+                    </checkbox>
+                </formElements>
+            </field>
+            <field name="submission_button_text" sortOrder="20" formElement="input">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">form</item>
+                        <item name="default" xsi:type="string">Submit</item>
+                        <item name="notice" xsi:type="string" translate="true">Text to display on the form submission button.</item>
+                    </item>
+                </argument>
+                <settings>
+                    <dataType>text</dataType>
+                    <label translate="true">Submission Button Text</label>
+                    <dataScope>submission_button_text</dataScope>
+                </settings>
+            </field>
+            <field name="submission_success_message" formElement="wysiwyg" template="ui/form/field" sortOrder="30">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">form</item>
+                        <item name="default" xsi:type="string">Thank you! Your submission has been received and will be reviewed shortly.</item>
+                        <item name="wysiwygConfigData" xsi:type="array">
+                            <item name="is_pagebuilder_enabled" xsi:type="boolean">false</item>
+                        </item>
+                    </item>
+                </argument>
+                <settings>
+                    <dataScope>submission_success_message</dataScope>
+                    <label translate="true">Submission Success Message</label>
+                </settings>
+                <formElements>
+                    <wysiwyg>
+                        <settings>
+                            <wysiwyg>true</wysiwyg>
+                        </settings>
+                    </wysiwyg>
+                </formElements>
+            </field>
+        </fieldset>
+    </fieldset>
+    <fieldset name="form_builder_content" sortOrder="60">
+        <settings>
+            <collapsible>true</collapsible>
+            <label translate="true">Form Builder</label>
+        </settings>
+        <htmlContent name="form_builder">
+            <block name="form_builder_renderer" class="Magento\Backend\Block\Template">
+                <arguments>
+                    <argument name="template" xsi:type="string">HappyMachines_CustomForms::form/form-builder.phtml</argument>
+                    <argument name="view_model" xsi:type="object">HappyMachines\CustomForms\ViewModel\Adminhtml\FormBuilder</argument>
+                </arguments>
+            </block>
+        </htmlContent>
+    </fieldset>
+    <fieldset name="form_submissions" sortOrder="70">
+        <settings>
+            <collapsible>true</collapsible>
+            <label translate="true">Form Submissions</label>
+        </settings>
+        <insertListing name="form_submission_listing">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="render_url" xsi:type="url" path="mui/index/render" />
+                    <item name="filter_url_params" xsi:type="array">
+                        <item name="form_id" xsi:type="string">*</item>
+                    </item>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="indexField" xsi:type="string">submission_id</item>
+                    </item>
+                </item>
+            </argument>
+            <settings>
+                <autoRender>true</autoRender>
+                <dataScope>form_submission_listing</dataScope>
+                <ns>form_submission_listing</ns>
+                <externalProvider>form_submission_listing.form_submission_listing_data_source</externalProvider>
+                <selectionsProvider>form_submission_listing.form_submission_listing.columns.ids</selectionsProvider>
+                <imports>
+                    <link name="form_id">${ $.provider }:data.form_id</link>
+                </imports>
+                <exports>
+                    <link name="form_id">${ $.externalProvider }:params.form_id</link>
+                </exports>
+                <externalFilterMode>true</externalFilterMode>
+            </settings>
+        </insertListing>
+    </fieldset>
+    <fieldset name="embedding">
+        <settings>
+            <collapsible>true</collapsible>
+            <label translate="true">Form Embedding</label>
+        </settings>
+        <htmlContent name="form_embedding">
+            <settings>
+                <additionalClasses>
+                    <class name="admin__fieldset">true</class>
+                </additionalClasses>
+            </settings>
+            <block name="form_embed_codes" class="Magento\Backend\Block\Template">
+                <arguments>
+                    <argument name="template" xsi:type="string">HappyMachines_CustomForms::form/embedding/embed.phtml</argument>
+                    <argument name="view_model" xsi:type="object">HappyMachines\CustomForms\ViewModel\Adminhtml\FormEmbed</argument>
+                </arguments>
+            </block>
+        </htmlContent>
+    </fieldset>
+</form>

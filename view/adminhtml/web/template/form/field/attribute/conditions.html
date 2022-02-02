@@ -1,0 +1,74 @@
+<div class="conditions">
+    <div class="condition-wrap" data-bind="foreach: {data: conditions, as: 'condition'}">
+        <div class="condition">
+            <div class="condition-row condition-row-if">
+                <label class="condition-row-label" data-bind="text: $parent.getIfConditionLabel(condition.ifConditionSourceField())"></label>
+                <select data-bind="optionsCaption: $parent.propertyOptionCaption,
+                    options: $parent.ifConditionTargetPropertyOptions,
+                    optionsText: 'label',
+                    optionsValue: 'type',
+                    value: condition.ifConditionTargetProperty">
+                </select>
+                <select data-bind="optionsCaption: $parent.comparisonOptionCaption,
+                    options: $parent.ifConditionComparisonOptions,
+                    optionsText: 'label',
+                    optionsValue: 'type',
+                    value: condition.ifConditionComparisonOption">
+                </select>
+                <!-- ko if: !$parent.isMultiselect() -->
+                <select data-bind="optionsCaption: $parent.valueOptionCaption,
+                    options: $parent.getIfConditionTargetValueSelectOptions(condition),
+                    optionsText: 'label',
+                    optionsValue: 'value',
+                    value: condition.ifConditionTargetValue">
+                </select>
+                <!-- /ko -->
+                <!-- ko if: $parent.isMultiselect() -->
+                <select class="multiple resizable" multiple="true" data-bind="
+                    options: $parent.getIfConditionTargetValueSelectOptions(condition),
+                    optionsText: 'label',
+                    optionsValue: 'value',
+                    selectedOptions: condition.ifConditionTargetValue">
+                </select>
+                <!-- /ko -->
+            </div>
+            <div class="condition-row condition-row-then">
+                <label class="condition-row-label" data-bind="text: 'Then'"></label>
+                <select data-bind="optionsCaption: $parent.fieldOptionCaption,
+                    options: $parent.thenConditionFieldOptions,
+                    optionsText: 'label',
+                    optionsValue: 'name',
+                    value: condition.thenConditionSourceField">
+                </select>
+                <select data-bind="optionsCaption: $parent.propertyOptionCaption,
+                    options: $parent.thenConditionTargetPropertyOptions,
+                    optionsText: 'label',
+                    optionsValue: 'type',
+                    value: condition.thenConditionTargetProperty">
+                </select>
+                <select data-bind="optionsCaption: $parent.comparisonOptionCaption,
+                    options: $parent.thenConditionComparisonOptions,
+                    optionsText: 'label',
+                    optionsValue: 'type',
+                    value: condition.thenConditionComparisonOption">
+                </select>
+                <select data-bind="optionsCaption: $parent.valueOptionCaption,
+                    options: $parent.thenConditionTargetValueSelectOptions,
+                    optionsText: 'label',
+                    optionsValue: 'type',
+                    value: condition.thenConditionTargetValue">
+                </select>
+            </div>
+            <button type="button" class="condition-remove action-close"
+                    data-bind="click: $parent.removeCondition.bind($parent),
+                    event: {mouseover: $parent.toggleDelete, mouseout: $parent.toggleDelete}, mouseoverBubble: false">
+                <span>Remove Condition</span>
+            </button>
+        </div>
+    </div>
+    <div class="buttons-set">
+        <button type="button" class="add-condition" data-bind="click: addNewCondition">
+            <span>Add Condition</span>
+        </button>
+    </div>
+</div>

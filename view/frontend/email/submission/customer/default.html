@@ -1,0 +1,21 @@
+<!--@subject {{trans "Your %form_name submission has been received" form_name=$form_name}} @-->
+<!--@vars {
+"var form_name":"Form Name",
+"var customer_email":"Customer email",
+"var submitted_data_table":"Form Submission Data - Table Display",
+} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<table>
+    <tr>
+        <td>
+            <p>{{trans "Your %form_name submission has been received." form_name=$form_name}}</p>
+            <p>{{trans "Below is a copy of your submitted information for you records."}}</p>
+            <h3>{{trans "Submitted Data"}}</h3>
+            {{var submitted_data_table|raw}}
+        </td>
+    </tr>
+</table>
+
+{{template config_path="design/email/footer_template"}}

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="happymachines_customforms_submission_admin_notification_default" label="HappyMachines Custom Forms - New Submission Admin Notification (Default)" file="submission/admin/default.html"
+              type="html" module="HappyMachines_CustomForms" area="frontend"/>
+    <template id="happymachines_customforms_submission_admin_notification_default_with_quote" label="HappyMachines Custom Forms - New Submission Admin Notification (With Quote Data)" file="submission/admindefault_with_quote.html"
+              type="html" module="HappyMachines_CustomForms" area="frontend"/>
+    <template id="happymachines_customforms_submission_confirmation_default" label="HappyMachines Custom Forms - Submission Confirmation (Default)" file="submission/customer/default.html"
+              type="html" module="HappyMachines_CustomForms" area="frontend"/>
+    <template id="happymachines_customforms_submission_confirmation_default_with_quote" label="HappyMachines Custom Forms - Submission Confirmation (With Quote Data)" file="submission/customer/default_with_quote.html"
+              type="html" module="HappyMachines_CustomForms" area="frontend"/>
+</config>

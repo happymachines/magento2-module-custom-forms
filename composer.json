@@ -1,0 +1,23 @@
+{
+    "name": "happymachines/magento2-module-custom-forms",
+    "description": "The CustomForms Magento 2 module provides the ability to create and manage custom forms from the Magento admin panel.",
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "license": [
+        "MIT"
+    ],
+    "require": {
+        "php": ">=7.3",
+        "magento/framework": ">=103",
+        "happymachines/magento2-module-custom-forms-re-captcha": "*",
+        "happymachines/magento2-module-custom-forms-page-builder": "*"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "HappyMachines\\CustomForms\\": ""
+        }
+    }
+}

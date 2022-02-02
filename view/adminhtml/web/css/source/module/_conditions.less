@@ -1,0 +1,81 @@
+//
+//  Form Builder
+//  _____________________________________________
+.happymachines-custom-form-builder {
+    .conditions {
+        width: 81.33333333%;
+        margin-left: 2%;
+        float: left;
+
+        .condition {
+            position: relative;
+            margin-bottom: 15px;
+            .lib-css(transition, box-shadow .3s ease-in-out);
+
+            &-row {
+                display: flex;
+
+                & input, select {
+                    margin-left: -1px;
+                    padding: 6px !important;
+
+                    &.multiple {
+                        min-height: 35px;
+                        max-height: 200px;
+                    }
+
+                    &.resizable {
+                        resize: vertical;
+                    }
+                }
+
+
+
+                &-label {
+                    text-align: center !important;
+                    background-color: #fff;
+                    border: 1px solid @form-element-input__border-color;
+                    padding-left: 5px;
+                    padding-right: 5px;
+                }
+
+                &-if {
+                    label {
+                        width: 100% !important;
+                    }
+                }
+
+                &-then {
+                    margin-top: -1px;
+
+                    label {
+                        min-width: 50px;
+                    }
+                }
+            }
+
+            &.delete {
+                .lib-css(box-shadow, 0 0 3px 3px @form-builder__color-remove-rgba, @_prefix: 1);
+            }
+
+            &-remove {
+                position: absolute;
+                top: 50%;
+                transform: translate(0, -50%);
+            }
+        }
+
+        .hidden-label {
+            .lib-visually-hidden();
+        }
+
+        .buttons-set {
+            margin: 15px 0;
+            text-align: left;
+
+            button {
+                margin-right: 0;
+            }
+        }
+    }
+}

@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget class="HappyMachines\CustomForms\Block\Form\Widget\Form" id="happymachines_custom_forms_form_widget">
+        <label>HappyMachines Custom Form</label>
+        <description>This widget renders your custom forms.</description>
+        <parameters>
+            <parameter name="form_id" xsi:type="select" required="true" visible="true" source_model="HappyMachines\CustomForms\Model\Config\Source\Form">
+                <label translate="true">Form</label>
+            </parameter>
+            <parameter name="template" xsi:type="select" required="true" visible="true">
+                <label translate="true">Form Template</label>
+                <options>
+                    <option name="default" value="HappyMachines_CustomForms::form/default.phtml">
+                        <label translate="true">Default</label>
+                    </option>
+                </options>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

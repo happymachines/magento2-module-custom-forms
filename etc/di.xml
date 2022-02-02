@@ -1,0 +1,409 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Model interface preferences -->
+    <preference for="HappyMachines\CustomForms\Api\Data\FormSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <preference for="HappyMachines\CustomForms\Api\Data\FormInterface" type="HappyMachines\CustomForms\Model\Form" />
+    <preference for="HappyMachines\CustomForms\Api\FormRepositoryInterface" type="HappyMachines\CustomForms\Model\FormRepository" />
+    <preference for="HappyMachines\CustomForms\Api\Data\SubmissionSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <preference for="HappyMachines\CustomForms\Api\Data\SubmissionInterface" type="HappyMachines\CustomForms\Model\Submission" />
+    <preference for="HappyMachines\CustomForms\Api\SubmissionRepositoryInterface" type="HappyMachines\CustomForms\Model\SubmissionRepository" />
+    <preference for="HappyMachines\CustomForms\Api\Data\SubmissionFileSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <preference for="HappyMachines\CustomForms\Api\Data\SubmissionFileInterface" type="HappyMachines\CustomForms\Model\SubmissionFile" />
+    <preference for="HappyMachines\CustomForms\Api\SubmissionFileRepositoryInterface" type="HappyMachines\CustomForms\Model\SubmissionFileRepository" />
+    <preference for="HappyMachines\CustomForms\Model\Submission\Processor\SubmissionProcessorPoolInterface" type="HappyMachines\CustomForms\Model\Submission\Processor\SubmissionProcessorPool" />
+    <preference for="HappyMachines\CustomForms\Model\Submission\Validator\ValidatorInterface" type="HappyMachines\CustomForms\Model\Submission\Validator\ValidatorPool"/>
+    <preference for="HappyMachines\CustomForms\Model\Form\Field\Condition\ConditionComparatorPoolInterface" type="HappyMachines\CustomForms\Model\Form\Field\Condition\ConditionComparatorPool"/>
+
+    <!-- UI listing grid configuration -->
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="form_listing_data_source" xsi:type="string">HappyMachines\CustomForms\Model\ResourceModel\Form\Grid\Collection</item>
+                <item name="form_submission_listing_data_source" xsi:type="string">HappyMachines\CustomForms\Model\ResourceModel\Submission\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="HappyMachines\CustomForms\Ui\Component\Listing\Column\Store" type="Magento\Store\Ui\Component\Listing\Column\Store">
+        <arguments>
+            <argument name="storeKey" xsi:type="string">stores</argument>
+        </arguments>
+    </virtualType>
+    <!-- Form listing grid configuration -->
+    <type name="HappyMachines\CustomForms\Model\ResourceModel\Form\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">happymachines_custom_form</argument>
+            <argument name="eventPrefix" xsi:type="string">happymachines_custom_form_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">custom_form_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">HappyMachines\CustomForms\Model\ResourceModel\Form</argument>
+        </arguments>
+    </type>
+    <virtualType name="HappyMachines\CustomForms\Ui\DataProvider\Form\Listing\FormGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="HappyMachines\CustomForms\Ui\DataProvider\Form\Listing\FormGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">HappyMachines\CustomForms\Model\ResourceModel\Form\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">HappyMachines\CustomForms\Ui\DataProvider\Form\Listing\FormGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="HappyMachines\CustomForms\Ui\Component\Form\Listing\Column\Actions" type="HappyMachines\CustomForms\Ui\Component\Listing\Column\Actions">
+        <arguments>
+            <argument name="actions" xsi:type="array">
+                <item name="edit" xsi:type="array">
+                    <item name="idField" xsi:type="string">form_id</item>
+                    <item name="label" xsi:type="string">Edit</item>
+                    <item name="nameField" xsi:type="string">name</item>
+                    <item name="param" xsi:type="string">form_id</item>
+                    <item name="actionPath" xsi:type="string">forms/form/edit</item>
+                </item>
+                <item name="delete" xsi:type="array">
+                    <item name="idField" xsi:type="string">form_id</item>
+                    <item name="label" xsi:type="string">Delete</item>
+                    <item name="nameField" xsi:type="string">name</item>
+                    <item name="param" xsi:type="string">form_id</item>
+                    <item name="actionPath" xsi:type="string">forms/form/delete</item>
+                    <item name="confirm" xsi:type="array">
+                        <item name="title" xsi:type="string">Delete %1</item>
+                        <item name="message" xsi:type="string">Are you sure you want to delete the form "%1"?</item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Form submission listing grid configuration -->
+    <virtualType name="HappyMachines\CustomForms\Model\ResourceModel\Submission\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">happymachines_custom_form_submission</argument>
+            <argument name="resourceModel" xsi:type="string">HappyMachines\CustomForms\Model\ResourceModel\Submission</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="HappyMachines\CustomForms\Ui\Component\Submission\Listing\Column\Actions" type="HappyMachines\CustomForms\Ui\Component\Listing\Column\Actions">
+        <arguments>
+            <argument name="actions" xsi:type="array">
+                <item name="view" xsi:type="array">
+                    <item name="idField" xsi:type="string">submission_id</item>
+                    <item name="label" xsi:type="string">View</item>
+                    <!-- @see app/code/HappyMachines/CustomForms/Ui/DataProvider/Submission/Listing/DataProvider.php -->
+                    <item name="nameField" xsi:type="string">form_id</item>
+                    <item name="param" xsi:type="string">submission_id</item>
+                    <item name="actionPath" xsi:type="string">forms/submission/edit</item>
+                </item>
+                <item name="view_files" xsi:type="array">
+                    <item name="idField" xsi:type="string">submission_id</item>
+                    <item name="label" xsi:type="string">View Files</item>
+                    <!-- @see app/code/HappyMachines/CustomForms/Ui/DataProvider/Submission/Listing/DataProvider.php -->
+                    <item name="param" xsi:type="string">submission_id</item>
+                    <item name="actionPath" xsi:type="string">forms/submissionfile/index</item>
+                </item>
+                <item name="delete" xsi:type="array">
+                    <item name="idField" xsi:type="string">submission_id</item>
+                    <item name="label" xsi:type="string">Delete</item>
+                    <!-- @see app/code/HappyMachines/CustomForms/Ui/DataProvider/Submission/Listing/DataProvider.php -->
+                    <item name="nameField" xsi:type="string">form_id</item>
+                    <item name="param" xsi:type="string">submission_id</item>
+                    <item name="actionPath" xsi:type="string">forms/submission/delete</item>
+                    <item name="confirm" xsi:type="array">
+                        <item name="title" xsi:type="string">Delete %1</item>
+                        <item name="message" xsi:type="string">Are you sure you want to delete the submission for form "%1"?</item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Form submission file listing grid configuration -->
+    <virtualType name="HappyMachines\CustomForms\Model\ResourceModel\SubmissionFile\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">happymachines_custom_form_submission_file</argument>
+            <argument name="resourceModel" xsi:type="string">HappyMachines\CustomForms\Model\ResourceModel\SubmissionFile</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="HappyMachines\CustomForms\Ui\Component\SubmissionFile\Listing\Column\Actions" type="HappyMachines\CustomForms\Ui\Component\Listing\Column\Actions">
+        <arguments>
+            <argument name="actions" xsi:type="array">
+                <item name="download" xsi:type="array">
+                    <item name="idField" xsi:type="string">file_id</item>
+                    <item name="label" xsi:type="string">Download</item>
+                    <item name="nameField" xsi:type="string">name</item>
+                    <item name="param" xsi:type="string">file_id</item>
+                    <item name="actionPath" xsi:type="string">forms/submissionfile/download</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Form collection filter configuration -->
+    <virtualType name="HappyMachines\CustomForms\Model\Api\SearchCriteria\CollectionProcessor\FormFilterProcessor" type="Magento\Framework\Api\SearchCriteria\CollectionProcessor\FilterProcessor">
+        <arguments>
+            <argument name="customFilters" xsi:type="array">
+                <!--todo add customer groups filter -->
+                <item name="store_id" xsi:type="object">HappyMachines\CustomForms\Model\Api\SearchCriteria\CollectionProcessor\FilterProcessor\FormStoreFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="HappyMachines\CustomForms\Model\Api\SearchCriteria\FormCollectionProcessor" type="Magento\Framework\Api\SearchCriteria\CollectionProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="filters" xsi:type="object">HappyMachines\CustomForms\Model\Api\SearchCriteria\CollectionProcessor\FormFilterProcessor</item>
+                <item name="sorting" xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\SortingProcessor</item>
+                <item name="pagination" xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\PaginationProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="HappyMachines\CustomForms\Model\FormRepository">
+        <arguments>
+            <argument name="collectionProcessor" xsi:type="object">HappyMachines\CustomForms\Model\Api\SearchCriteria\FormCollectionProcessor</argument>
+        </arguments>
+    </type>
+    <!-- Submission email template vars -->
+    <type name="HappyMachines\CustomForms\Model\Submission\Email\TemplateVarPool">
+        <arguments>
+            <argument name="templateVars" xsi:type="array">
+                <item name="form_name" xsi:type="object">HappyMachines\CustomForms\Model\Submission\Email\TemplateVars\FormName</item>
+                <item name="customer_email" xsi:type="object">HappyMachines\CustomForms\Model\Submission\Email\TemplateVars\CustomerEmail</item>
+                <item name="submitted_data_table" xsi:type="object">HappyMachines\CustomForms\Model\Submission\Email\TemplateVars\SubmittedDataTable</item>
+                <item name="quote_items_table" xsi:type="object">HappyMachines\CustomForms\Model\Submission\Email\TemplateVars\QuoteItemsTable</item>
+            </argument>
+        </arguments>
+    </type>
+    <!-- Form field blocks -->
+    <virtualType name="HappyMachines\CustomForms\Block\Form\Field\Header\H1" type="Magento\Framework\View\Element\Template">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="field_type" xsi:type="string">header</item>
+                <item name="field_subtype" xsi:type="string">h1</item>
+                <item name="template" xsi:type="string">HappyMachines_CustomForms::fields/header/h1.phtml</item>
+                <item name="view_model_factory" xsi:type="object">HappyMachines\CustomForms\ViewModel\Form\FieldFactory</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="HappyMachines\CustomForms\Block\Form\Field\Header\H2" type="Magento\Framework\View\Element\Template">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="field_type" xsi:type="string">header</item>
+                <item name="field_subtype" xsi:type="string">h2</item>
+                <item name="template" xsi:type="string">HappyMachines_CustomForms::fields/header/h2.phtml</item>
+                <item name="view_model_factory" xsi:type="object">HappyMachines\CustomForms\ViewModel\Form\FieldFactory</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="HappyMachines\CustomForms\Block\Form\Field\Header\H3" type="Magento\Framework\View\Element\Template">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="field_type" xsi:type="string">header</item>
+                <item name="field_subtype" xsi:type="string">h3</item>
+                <item name="template" xsi:type="string">HappyMachines_CustomForms::fields/header/h3.phtml</item>
+                <item name="view_model_factory" xsi:type="object">HappyMachines\CustomForms\ViewModel\Form\FieldFactory</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="HappyMachines\CustomForms\Block\Form\Field\Header\H4" type="Magento\Framework\View\Element\Template">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="field_type" xsi:type="string">header</item>
+                <item name="field_subtype" xsi:type="string">h4</item>
+                <item name="template" xsi:type="string">HappyMachines_CustomForms::fields/header/h4.phtml</item>
+                <item name="view_model_factory" xsi:type="object">HappyMachines\CustomForms\ViewModel\Form\FieldFactory</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="HappyMachines\CustomForms\Block\Form\Field\Header\H5" type="Magento\Framework\View\Element\Template">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="field_type" xsi:type="string">header</item>
+                <item name="field_subtype" xsi:type="string">h5</item>
+                <item name="template" xsi:type="string">HappyMachines_CustomForms::fields/header/h5.phtml</item>
+                <item name="view_model_factory" xsi:type="object">HappyMachines\CustomForms\ViewModel\Form\FieldFactory</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="HappyMachines\CustomForms\Block\Form\Field\Header\H6" type="Magento\Framework\View\Element\Template">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="field_type" xsi:type="string">header</item>
+                <item name="field_subtype" xsi:type="string">h6</item>
+                <item name="template" xsi:type="string">HappyMachines_CustomForms::fields/header/h6.phtml</item>
+                <item name="view_model_factory" xsi:type="object">HappyMachines\CustomForms\ViewModel\Form\FieldFactory</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="HappyMachines\CustomForms\Block\Form\Field\Paragraph\Paragraph" type="Magento\Framework\View\Element\Template">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="field_type" xsi:type="string">paragraph</item>
+                <item name="field_subtype" xsi:type="string">p</item>
+                <item name="template" xsi:type="string">HappyMachines_CustomForms::fields/paragraph/paragraph.phtml</item>
+                <item name="view_model_factory" xsi:type="object">HappyMachines\CustomForms\ViewModel\Form\FieldFactory</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="HappyMachines\CustomForms\Block\Form\Field\Text\Text" type="Magento\Framework\View\Element\Template">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="field_type" xsi:type="string">text</item>
+                <item name="field_subtype" xsi:type="string">text</item>
+                <item name="template" xsi:type="string">HappyMachines_CustomForms::fields/text/text.phtml</item>
+                <item name="view_model_factory" xsi:type="object">HappyMachines\CustomForms\ViewModel\Form\FieldFactory</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="HappyMachines\CustomForms\Block\Form\Field\Text\Email" type="Magento\Framework\View\Element\Template">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="field_type" xsi:type="string">text</item>
+                <item name="field_subtype" xsi:type="string">email</item>
+                <item name="template" xsi:type="string">HappyMachines_CustomForms::fields/text/email.phtml</item>
+                <item name="view_model_factory" xsi:type="object">HappyMachines\CustomForms\ViewModel\Form\FieldFactory</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="HappyMachines\CustomForms\Block\Form\Field\Text\Password" type="Magento\Framework\View\Element\Template">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="field_type" xsi:type="string">text</item>
+                <item name="field_subtype" xsi:type="string">password</item>
+                <item name="template" xsi:type="string">HappyMachines_CustomForms::fields/text/password.phtml</item>
+                <item name="view_model_factory" xsi:type="object">HappyMachines\CustomForms\ViewModel\Form\FieldFactory</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="HappyMachines\CustomForms\Block\Form\Field\Text\Telephone" type="Magento\Framework\View\Element\Template">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="field_type" xsi:type="string">text</item>
+                <item name="field_subtype" xsi:type="string">tel</item>
+                <item name="template" xsi:type="string">HappyMachines_CustomForms::fields/text/telephone.phtml</item>
+                <item name="view_model_factory" xsi:type="object">HappyMachines\CustomForms\ViewModel\Form\FieldFactory</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="HappyMachines\CustomForms\Block\Form\Field\Textarea\Textarea" type="Magento\Framework\View\Element\Template">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="field_type" xsi:type="string">textarea</item>
+                <item name="field_subtype" xsi:type="string">textarea</item>
+                <item name="template" xsi:type="string">HappyMachines_CustomForms::fields/textarea/textarea.phtml</item>
+                <item name="view_model_factory" xsi:type="object">HappyMachines\CustomForms\ViewModel\Form\FieldFactory</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="HappyMachines\CustomForms\Block\Form\Field\Select\Select" type="Magento\Framework\View\Element\Template">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="field_type" xsi:type="string">select</item>
+                <item name="template" xsi:type="string">HappyMachines_CustomForms::fields/select/select.phtml</item>
+                <item name="view_model_factory" xsi:type="object">HappyMachines\CustomForms\ViewModel\Form\FieldFactory</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="HappyMachines\CustomForms\Block\Form\Field\Select\Region" type="Magento\Framework\View\Element\Template">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="field_type" xsi:type="string">select</item>
+                <item name="field_attributes" xsi:type="array">
+                    <item name="dataTypeAddressField" xsi:type="string">region</item>
+                </item>
+                <item name="template" xsi:type="string">HappyMachines_CustomForms::fields/select/region.phtml</item>
+                <item name="view_model_factory" xsi:type="object">HappyMachines\CustomForms\ViewModel\Form\FieldFactory</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="HappyMachines\CustomForms\Block\Form\Field\Select\Country" type="Magento\Directory\Block\Data">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="field_type" xsi:type="string">select</item>
+                <item name="field_attributes" xsi:type="array">
+                    <item name="dataTypeAddressField" xsi:type="string">country</item>
+                </item>
+                <item name="template" xsi:type="string">HappyMachines_CustomForms::fields/select/country.phtml</item>
+                <item name="view_model_factory" xsi:type="object">HappyMachines\CustomForms\ViewModel\Form\Field\AddressFactory</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="HappyMachines\CustomForms\Block\Form\Field\Select\CheckboxGroup" type="Magento\Framework\View\Element\Template">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="field_type" xsi:type="string">checkbox-group</item>
+                <item name="template" xsi:type="string">HappyMachines_CustomForms::fields/select/checkbox-group.phtml</item>
+                <item name="view_model_factory" xsi:type="object">HappyMachines\CustomForms\ViewModel\Form\FieldFactory</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="HappyMachines\CustomForms\Block\Form\Field\Select\RadioGroup" type="Magento\Framework\View\Element\Template">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="field_type" xsi:type="string">radio-group</item>
+                <item name="template" xsi:type="string">HappyMachines_CustomForms::fields/select/radio-group.phtml</item>
+                <item name="view_model_factory" xsi:type="object">HappyMachines\CustomForms\ViewModel\Form\FieldFactory</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="HappyMachines\CustomForms\Block\Form\Field\File\File" type="Magento\Framework\View\Element\Template">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="field_type" xsi:type="string">file</item>
+                <item name="field_subtype" xsi:type="string">file</item>
+                <item name="template" xsi:type="string">HappyMachines_CustomForms::fields/file/file.phtml</item>
+                <item name="view_model_factory" xsi:type="object">HappyMachines\CustomForms\ViewModel\Form\FieldFactory</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="HappyMachines\CustomForms\Block\Form\Field\Date\Date" type="Magento\Framework\View\Element\Template">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="field_type" xsi:type="string">date</item>
+                <item name="template" xsi:type="string">HappyMachines_CustomForms::fields/date/date.phtml</item>
+                <item name="view_model_factory" xsi:type="object">HappyMachines\CustomForms\ViewModel\Form\FieldFactory</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="HappyMachines\CustomForms\Block\Form\Field\Number\Number" type="Magento\Framework\View\Element\Template">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="field_type" xsi:type="string">number</item>
+                <item name="template" xsi:type="string">HappyMachines_CustomForms::fields/number/number.phtml</item>
+                <item name="view_model_factory" xsi:type="object">HappyMachines\CustomForms\ViewModel\Form\FieldFactory</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="HappyMachines\CustomForms\Block\Form\Field\Hidden\Hidden" type="Magento\Framework\View\Element\Template">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="field_type" xsi:type="string">hidden</item>
+                <item name="template" xsi:type="string">HappyMachines_CustomForms::fields/hidden/hidden.phtml</item>
+                <item name="view_model_factory" xsi:type="object">HappyMachines\CustomForms\ViewModel\Form\FieldFactory</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Form field block pool -->
+    <type name="HappyMachines\CustomForms\Model\Form\Field\FieldBlockPool">
+        <arguments>
+            <argument name="blocks" xsi:type="array">
+                <item name="header.h1" xsi:type="object">HappyMachines\CustomForms\Block\Form\Field\Header\H1</item>
+                <item name="header.h2" xsi:type="object">HappyMachines\CustomForms\Block\Form\Field\Header\H2</item>
+                <item name="header.h3" xsi:type="object">HappyMachines\CustomForms\Block\Form\Field\Header\H3</item>
+                <item name="header.h4" xsi:type="object">HappyMachines\CustomForms\Block\Form\Field\Header\H4</item>
+                <item name="header.h5" xsi:type="object">HappyMachines\CustomForms\Block\Form\Field\Header\H5</item>
+                <item name="header.h6" xsi:type="object">HappyMachines\CustomForms\Block\Form\Field\Header\H6</item>
+                <item name="paragraph" xsi:type="object">HappyMachines\CustomForms\Block\Form\Field\Paragraph\Paragraph</item>
+                <item name="text" xsi:type="object">HappyMachines\CustomForms\Block\Form\Field\Text\Text</item>
+                <item name="email" xsi:type="object">HappyMachines\CustomForms\Block\Form\Field\Text\Email</item>
+                <item name="password" xsi:type="object">HappyMachines\CustomForms\Block\Form\Field\Text\Password</item>
+                <item name="telephone" xsi:type="object">HappyMachines\CustomForms\Block\Form\Field\Text\Telephone</item>
+                <item name="textarea" xsi:type="object">HappyMachines\CustomForms\Block\Form\Field\Textarea\Textarea</item>
+                <item name="select" xsi:type="object">HappyMachines\CustomForms\Block\Form\Field\Select\Select</item>
+                <item name="select.region" xsi:type="object">HappyMachines\CustomForms\Block\Form\Field\Select\Region</item>
+                <item name="select.country" xsi:type="object">HappyMachines\CustomForms\Block\Form\Field\Select\Country</item>
+                <item name="checkbox.group" xsi:type="object">HappyMachines\CustomForms\Block\Form\Field\Select\CheckboxGroup</item>
+                <item name="radio.group" xsi:type="object">HappyMachines\CustomForms\Block\Form\Field\Select\RadioGroup</item>
+                <item name="file" xsi:type="object">HappyMachines\CustomForms\Block\Form\Field\File\File</item>
+                <item name="date" xsi:type="object">HappyMachines\CustomForms\Block\Form\Field\Date\Date</item>
+                <item name="number" xsi:type="object">HappyMachines\CustomForms\Block\Form\Field\Number\Number</item>
+                <item name="hidden" xsi:type="object">HappyMachines\CustomForms\Block\Form\Field\Hidden\Hidden</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

@@ -1,0 +1,11 @@
+<?php
+/** @var \Magento\Framework\View\Element\Template $block */
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var \HappyMachines\CustomForms\ViewModel\Form\Field|\HappyMachines\CustomForms\Model\Form\Field $fieldViewModel */
+
+$fieldViewModel = $block->getViewModel();
+?>
+<input type="hidden" name="<?= $escaper->escapeHtmlAttr($fieldViewModel->getName()) ?>"
+       id="<?= $escaper->escapeHtmlAttr($fieldViewModel->getName()) ?>"
+       value="<?= $fieldViewModel->getValue() ?>">
+

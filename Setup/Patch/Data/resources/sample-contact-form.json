@@ -1,0 +1,112 @@
+[
+    {
+        "type": "header",
+        "subtype": "h1",
+        "label": "Contact Us",
+        "fieldsetStart": true
+    },
+    {
+        "type": "text",
+        "required": true,
+        "label": "Name",
+        "className": "form-control",
+        "name": "name",
+        "subtype": "text",
+        "fieldsetStart": false,
+        "disabled": false,
+        "readonly": false,
+        "dataCustomerEmail": false
+    },
+    {
+        "type": "text",
+        "subtype": "email",
+        "required": true,
+        "label": "Email",
+        "className": "form-control",
+        "name": "email",
+        "fieldsetStart": false,
+        "disabled": false,
+        "readonly": false,
+        "dataCustomerEmail": true
+    },
+    {
+        "type": "text",
+        "subtype": "tel",
+        "required": false,
+        "label": "Phone",
+        "className": "input-text",
+        "name": "phone",
+        "fieldsetStart": false,
+        "disabled": false,
+        "readonly": false,
+        "dataCustomerEmail": false,
+        "dataMask": "+1 (000) 000-0000"
+    },
+    {
+        "type": "select",
+        "required": true,
+        "label": "Reason For Contact",
+        "className": "form-control",
+        "name": "reason",
+        "multiple": false,
+        "fieldsetStart": false,
+        "disabled": false,
+        "dataConditions": "[{\"source\":{\"fieldName\":\"select-1603208164577\",\"property\":\"value\",\"comparison\":\"neq\",\"value\":\"Issues With Existing Order\"},\"target\":{\"fieldName\":\"text-1603208315061\",\"property\":\"visibility\",\"comparison\":\"eq\",\"value\":\"hidden\"}}]",
+        "values": [
+            {
+                "label": "General Questions",
+                "value": "General Questions",
+                "selected": true
+            },
+            {
+                "label": "Need Help Logging In",
+                "value": "Need Help Logging In",
+                "selected": false
+            },
+            {
+                "label": "Issues Placing An Order",
+                "value": "Issues Placing An Order",
+                "selected": false
+            },
+            {
+                "label": "Issues With Existing Order",
+                "value": "Issues With Existing Order",
+                "selected": false
+            }
+        ]
+    },
+    {
+        "type": "text",
+        "required": true,
+        "label": "Order Number",
+        "className": "form-control",
+        "name": "order_number",
+        "subtype": "text",
+        "fieldsetStart": false,
+        "disabled": false,
+        "readonly": false,
+        "dataCustomerEmail": false
+    },
+    {
+        "type": "textarea",
+        "required": true,
+        "label": "How Can We Help?",
+        "className": "form-control",
+        "name": "question",
+        "subtype": "textarea",
+        "fieldsetStart": false,
+        "disabled": false,
+        "readonly": false
+    },
+    {
+        "type": "file",
+        "required": false,
+        "label": "Screenshots or Files",
+        "className": "form-control",
+        "name": "files",
+        "subtype": "file",
+        "multiple": true,
+        "fieldsetStart": false,
+        "disabled": false
+    }
+]

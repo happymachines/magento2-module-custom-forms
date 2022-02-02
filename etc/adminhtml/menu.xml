@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="HappyMachines_CustomForms::forms_content" title="Forms" module="HappyMachines_CustomForms" sortOrder="50" parent="Magento_Backend::content"
+             resource="HappyMachines_CustomForms::forms_content" />
+        <add id="HappyMachines_CustomForms::new_form" title="Add New Form" translate="title" module="HappyMachines_CustomForms" sortOrder="50"
+             parent="HappyMachines_CustomForms::forms_content" action="forms/form/new" resource="HappyMachines_CustomForms::save_form"/>
+        <add id="HappyMachines_CustomForms::forms" title="Manage Forms" translate="title" module="HappyMachines_CustomForms" sortOrder="60"
+             parent="HappyMachines_CustomForms::forms_content" action="forms/form" resource="HappyMachines_CustomForms::forms"/>
+        <add id="HappyMachines_CustomForms::submissions" title="View Submissions" translate="title" module="HappyMachines_CustomForms" sortOrder="70"
+             parent="HappyMachines_CustomForms::forms_content" action="forms/submission" resource="HappyMachines_CustomForms::submissions"/>
+        <add id="HappyMachines_CustomForms::submission_files" title="View Submission Files" translate="title" module="HappyMachines_CustomForms" sortOrder="80"
+             parent="HappyMachines_CustomForms::forms_content" action="forms/submissionfile" resource="HappyMachines_CustomForms::submission_files"/>
+    </menu>
+</config>

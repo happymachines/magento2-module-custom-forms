@@ -1,0 +1,30 @@
+<?php
+/**
+ * @var \Magento\Framework\View\Element\Template $block
+ * @var \HappyMachines\CustomForms\ViewModel\Adminhtml\FormBuilder $viewModel
+ */
+
+$viewModel = $block->getViewModel();
+?>
+<input id="happymachines-custom-form-builder-input" type="hidden" data-form-part="form_edit_form" name="form_data">
+<div id="happymachines-custom-form-builder" class="happymachines-custom-form-builder"></div>
+<script type="text/x-magento-init">
+{
+    "#happymachines-custom-form-builder": {
+        "HappyMachines_CustomForms/js/form/form-builder": {
+            "formData": <?= $viewModel->serialize($viewModel->getFormData()) ?>,
+            "formBuilderOptions": {
+                "disabledActionButtons": <?= $viewModel->serialize($viewModel->getDisabledFormActionButtons()) ?>,
+                "editOnAdd": <?= $viewModel->getEditOnAdd() ?>,
+                "fieldRemoveWarn": <?= $viewModel->getConfirmFieldDelete() ?>,
+                "scrollToFieldOnAdd": <?= $viewModel->getScrollOnAdd() ?>
+            }
+        }
+    }
+}
+</script>
+<script>
+    require(['jquery'], function($){
+        $('#happymachines-custom-form-builder').trigger('contentUpdated');
+    })
+</script>

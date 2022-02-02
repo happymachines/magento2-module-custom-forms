@@ -1,0 +1,21 @@
+<?php
+/** @var $block \Magento\Backend\Block\Template */
+/** @var $viewModel \HappyMachines\CustomForms\ViewModel\Submission\Submission */
+$viewModel = $block->getViewModel();
+?>
+<div class="fieldset-wrapper submission-details">
+    <div class="fieldset-wrapper-title">
+        <span class="title"><?= $block->escapeHtml(__('Submission Details')) ?></span>
+    </div>
+    <table class="admin__table-secondary">
+        <tbody>
+        <?php foreach ($viewModel->getSubmissionData() as $fieldName => $fieldData): ?>
+        <tr>
+            <th><?= $block->escapeHtml(__($fieldData['label'])) ?></th>
+            <td><?= $block->escapeHtml($fieldData['value']) ?></td>
+        </tr>
+        <?php endforeach; ?>
+        <?= $block->getChildHtml('submission_details_additional') ?>
+        </tbody>
+    </table>
+</div>

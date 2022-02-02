@@ -1,0 +1,123 @@
+<?xml version="1.0" ?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="happymachines_custom_form" comment="HappyMachines Custom Form Table" engine="innodb" resource="default">
+        <column name="form_id" identity="true" nullable="false" padding="6" unsigned="false" comment="Entity Id" xsi:type="smallint" />
+        <constraint referenceId="PRIMARY" xsi:type="primary">
+            <column name="form_id"/>
+        </constraint>
+        <column name="name" nullable="false" length="255" xsi:type="varchar"/>
+        <column name="identifier" nullable="false" length="255" comment="Form String Identifier" xsi:type="varchar"/>
+        <column name="is_active" nullable="false" padding="6" unsigned="false" identity="false" default="1" comment="Is Form Active" xsi:type="smallint" />
+        <column name="form_data" nullable="true" comment="Form Data" xsi:type="mediumtext"/>
+        <column name="before_form_content" nullable="true" comment="Before Form Content" xsi:type="mediumtext"/>
+        <column name="after_form_content" nullable="true" comment="After Form Content" xsi:type="mediumtext"/>
+        <column name="enable_admin_notification" nullable="false" padding="6" unsigned="false" identity="false" default="1" comment="Enable Admin Notifications" xsi:type="smallint"/>
+        <column name="admin_notification_recipient" nullable="true" length="255" xsi:type="varchar"/>
+        <column name="admin_notification_sender_email" nullable="true" length="255" xsi:type="varchar"/>
+        <column name="admin_notification_sender_name" nullable="true" length="255" xsi:type="varchar"/>
+        <column name="admin_notification_reply_to" nullable="true" length="255" xsi:type="varchar"/>
+        <column name="admin_notification_email_template" nullable="true" length="255" xsi:type="varchar"/>
+        <column name="enable_admin_notification_attachments" nullable="true" padding="6" unsigned="false" identity="false" comment="Enable admin notification email attachments" xsi:type="smallint" />
+        <column name="enable_submission_confirmation" nullable="false" padding="6" unsigned="false" identity="false" default="1" comment="Enable Submission Confirmation" xsi:type="smallint" />
+        <column name="submission_confirmation_sender_email" nullable="true" length="255" xsi:type="varchar"/>
+        <column name="submission_confirmation_sender_name" nullable="true" length="255" xsi:type="varchar"/>
+        <column name="submission_confirmation_reply_to" nullable="true" length="255" xsi:type="varchar"/>
+        <column name="submission_confirmation_email_template" nullable="true" length="255" xsi:type="varchar"/>
+        <column name="enable_submission_confirmation_attachments" nullable="true" padding="6" unsigned="false" identity="false" comment="Enable admin notification email attachments" xsi:type="smallint" />
+        <column name="enable_recaptcha" nullable="false" padding="6" unsigned="false" identity="false" default="1" comment="Enable Google Recaptcha" xsi:type="smallint"/>
+        <column name="submission_button_text" nullable="true" length="255" xsi:type="varchar"/>
+        <column name="submission_success_message" nullable="true" comment="Submission Success Message" xsi:type="mediumtext" />
+        <column name="creation_time" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Form Creation Time" xsi:type="timestamp" />
+        <column name="update_time" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Form Modification Time" xsi:type="timestamp" />
+        <index referenceId="HAPPYMACHINES_CUSTOM_FORM_FORM_ID" indexType="btree">
+            <column name="form_id"/>
+        </index>
+        <index referenceId="HAPPYMACHINES_CUSTOM_FORM_FORM_NAME" indexType="btree">
+            <column name="name"/>
+        </index>
+        <index referenceId="HAPPYMACHINES_CUSTOM_FORM_FORM_FULLTEXT" indexType="fulltext">
+            <column name="name"/>
+            <column name="identifier"/>
+        </index>
+    </table>
+    <table name="happymachines_custom_form_store" resource="default" engine="innodb" comment="Custom Form To Store Linkage Table">
+        <column name="form_id" nullable="false" padding="6" unsigned="false" identity="false" xsi:type="smallint"/>
+        <column name="store_id" nullable="false" padding="5" unsigned="true" identity="false" comment="Form ID" xsi:type="smallint"/>
+        <constraint referenceId="PRIMARY" xsi:type="primary">
+            <column name="form_id"/>
+            <column name="store_id"/>
+        </constraint>
+        <constraint referenceId="HAPPYMACHINES_CUSTOM_FORM_FORM_ID_HAPPYMACHINES_CUSTOM_FORM_FORM_ID" table="happymachines_custom_form_store"
+                    column="form_id" referenceTable="happymachines_custom_form" referenceColumn="form_id" onDelete="CASCADE" xsi:type="foreign"/>
+        <constraint referenceId="HAPPYMACHINES_CUSTOM_FORM_STORE_STORE_ID_STORE_STORE_ID" table="happymachines_custom_form_store"
+                    column="store_id" referenceTable="store" referenceColumn="store_id" onDelete="CASCADE" xsi:type="foreign"/>
+        <index referenceId="HAPPYMACHINES_CUSTOM_FORM_STORE_STORE_ID" indexType="btree">
+            <column name="store_id"/>
+        </index>
+    </table>
+    <table name="happymachines_custom_form_customer_group" resource="default" engine="innodb" comment="Custom Form To Customer Group Linkage Table">
+        <column name="form_id" nullable="false" padding="6" unsigned="false" identity="false" xsi:type="smallint"/>
+        <column name="customer_group_id" nullable="false" padding="10" unsigned="true" identity="false" comment="Customer Group ID" xsi:type="int"/>
+        <constraint referenceId="PRIMARY" xsi:type="primary">
+            <column name="form_id"/>
+            <column name="customer_group_id"/>
+        </constraint>
+        <constraint referenceId="HAPPYMACHINES_CUSTOM_FORM_FORM_ID_HAPPYMACHINES_CUSTOM_FORM_FORM_ID" table="happymachines_custom_form_customer_group"
+                    column="form_id" referenceTable="happymachines_custom_form" referenceColumn="form_id" onDelete="CASCADE" xsi:type="foreign"/>
+        <constraint referenceId="HAPPYMACHINES_CUSTOM_FORM_CUSTOMER_GROUP_CUSTOMER_GROUP_ID_CUSTOMER_GROUP_CUSTOMER_GROUP_ID" table="happymachines_custom_form_customer_group"
+                    column="customer_group_id" referenceTable="customer_group" referenceColumn="customer_group_id" onDelete="CASCADE" xsi:type="foreign"/>
+        <index referenceId="HAPPYMACHINES_CUSTOM_FORM_CUSTOMER_GROUP_CUSTOMER_GROUP_ID" indexType="btree">
+            <column name="customer_group_id"/>
+        </index>
+    </table>
+    <table name="happymachines_custom_form_submission" comment="HappyMachines Custom Form Submission Table" engine="innodb" resource="default">
+        <column name="submission_id" identity="true"  nullable="false" padding="6" unsigned="false" comment="Entity Id" xsi:type="smallint"/>
+        <constraint referenceId="PRIMARY" xsi:type="primary">
+            <column name="submission_id"/>
+        </constraint>
+        <column name="form_id" nullable="false" padding="6" unsigned="false" xsi:type="smallint"/>
+        <column name="customer_id" nullable="true" padding="6" unsigned="false" xsi:type="smallint"/>
+        <column name="customer_email" nullable="true" length="255" xsi:type="varchar"/>
+        <column name="quote_id" nullable="true" padding="6" unsigned="false" xsi:type="smallint"/>
+        <column name="submission_data" nullable="true" comment="Submission Data" xsi:type="text" />
+        <column name="creation_time" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Submission Creation Time" xsi:type="timestamp" />
+        <constraint referenceId="HAPPYMACHINES_CUSTOM_FORM_FORM_ID_HAPPYMACHINES_CUSTOM_FORM_FORM_ID" table="happymachines_custom_form_submission"
+                    column="form_id" referenceTable="happymachines_custom_form" referenceColumn="form_id" onDelete="CASCADE" xsi:type="foreign" />
+        <index referenceId="HAPPYMACHINES_CUSTOM_FORM_FORM_SUBMISSION_ID" indexType="btree">
+            <column name="submission_id"/>
+        </index>
+        <index referenceId="HAPPYMACHINES_CUSTOM_FORM_FORM_SUBMISSION_CUSTOMER_EMAIL" indexType="btree">
+            <column name="customer_email"/>
+        </index>
+        <index referenceId="HAPPYMACHINES_CUSTOM_FORM_FORM_SUBMISSION_FULLTEXT" indexType="fulltext">
+            <column name="customer_email"/>
+        </index>
+    </table>
+    <table name="happymachines_custom_form_submission_file" comment="HappyMachines Custom Form Submission Files Table" engine="innodb" resource="default">
+        <column comment="Entity Id" identity="true" name="file_id" nullable="false" padding="6" unsigned="false" xsi:type="smallint"/>
+        <constraint referenceId="PRIMARY" xsi:type="primary">
+            <column name="file_id"/>
+        </constraint>
+        <column name="submission_id" nullable="false" padding="6" unsigned="false" xsi:type="smallint"/>
+        <column name="form_id" nullable="false" padding="6" unsigned="false" xsi:type="smallint"/>
+        <column name="name" nullable="false" length="255" xsi:type="varchar"/>
+        <column name="path" nullable="false" xsi:type="mediumtext"/>
+        <column name="url" nullable="true" xsi:type="mediumtext"/>
+        <column name="mime_type" nullable="true" length="255" xsi:type="varchar"/>
+        <column name="size" nullable="true" length="255" xsi:type="varchar"/>
+        <column name="creation_time" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Submission File Creation Time" xsi:type="timestamp" />
+        <constraint referenceId="HAPPYMACHINES_CUSTOM_FORM_SUBMISSION_ID_HAPPYMACHINES_CUSTOM_FORM_SUBMISSION_ID" table="happymachines_custom_form_submission_file"
+                    column="submission_id" referenceTable="happymachines_custom_form_submission" referenceColumn="submission_id" onDelete="CASCADE" xsi:type="foreign" />
+        <index referenceId="HAPPYMACHINES_CUSTOM_FORM_FORM_SUBMISSION_FILE_ID" indexType="btree">
+            <column name="file_id"/>
+        </index>
+        <index referenceId="HAPPYMACHINES_CUSTOM_FORM_FORM_SUBMISSION_FILE_NAME" indexType="btree">
+            <column name="name"/>
+        </index>
+        <index referenceId="HAPPYMACHINES_CUSTOM_FORM_FORM_SUBMISSION_FILE_FULLTEXT" indexType="fulltext">
+            <column name="name"/>
+            <column name="path"/>
+        </index>
+    </table>
+</schema>
