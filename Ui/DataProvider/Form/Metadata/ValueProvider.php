@@ -48,6 +48,11 @@ class ValueProvider
     protected $logger;
 
     /**
+     * @var array
+     */
+    protected $customerGroups;
+
+    /**
      * Initialize dependencies.
      *
      * @param GroupRepositoryInterface $groupRepository
@@ -89,7 +94,8 @@ class ValueProvider
                                 'arguments' => [
                                     'data' => [
                                         'config' => [
-                                            'options' => $this->objectConverter->toOptionArray($this->getCustomerGroups(), 'id', 'code'),
+                                            'options' => $this->getCustomerGroups(),
+                                            'default' => $this->getCustomerGroupDefault()
                                         ]
                                     ]
                                 ]
@@ -134,19 +140,27 @@ class ValueProvider
     }
 
     /**
-     * @return array|GroupInterface[]
+     * @return array
      */
     private function getCustomerGroups()
     {
-        $customerGroups = [];
-
-        try {
-            $customerGroups = $this->groupRepository->getList($this->searchCriteriaBuilder->create())->getItems();
-        } catch (\Exception $exception) {
-            $this->logger->error($exception->getMessage());
+        if (!$this->customerGroups) {
+            try {
+                $this->customerGroups = $this->groupRepository->getList($this->searchCriteriaBuilder->create())->getItems();
+            } catch (\Exception $exception) {
+                $this->logger->error($exception->getMessage());
+            }
         }
 
-        return $customerGroups;
+        return $this->objectConverter->toOptionArray($this->customerGroups, 'id', 'code');
+    }
+
+    /**
+     * @return array
+     */
+    private function getCustomerGroupDefault()
+    {
+        return array_column($this->getCustomerGroups(), 'id');
     }
 
     /**
