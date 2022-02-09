@@ -165,6 +165,7 @@ class Submit extends Action implements HttpPostActionInterface
             try {
                 $this->_eventManager->dispatch('happymachines_customforms_form_submission_before', ['request' => $this->getRequest()]);
                 $form = $this->formRepository->getById($formId);
+                $formId = $form->getFormId();
                 $submissionData = $this->filterSubmissionDataParams($this->getRequest()->getParams());
                 if ($isValid = $this->validateSubmission($form, $submissionData)) {
                     $uploadedFiles = $this->processSubmissionFiles($form);
