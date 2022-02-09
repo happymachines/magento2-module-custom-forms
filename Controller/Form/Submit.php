@@ -163,11 +163,10 @@ class Submit extends Action implements HttpPostActionInterface
 
         if (isset($formId)) {
             try {
-                $this->_eventManager->dispatch('happymachines_customforms_form_submission_before', ['request' => $this->getRequest()]);
                 $form = $this->formRepository->getById($formId);
                 $formId = $form->getFormId();
                 $submissionData = $this->filterSubmissionDataParams($this->getRequest()->getParams());
-                if ($isValid = $this->validateSubmission($form, $submissionData)) {
+                if ($this->validateSubmission($form, $submissionData)) {
                     $uploadedFiles = $this->processSubmissionFiles($form);
                     if ($uploadedFiles) {
                         $this->addFileDataToSubmissionData($submissionData, $uploadedFiles);
@@ -179,6 +178,8 @@ class Submit extends Action implements HttpPostActionInterface
                     $data[SubmissionInterface::SUBMISSION_DATA] = $this->processSubmissionData($form, $submissionData);
                     $submission = $this->submissionFactory->create();
                     $submission->setData($data);
+                    $this->_eventManager->dispatch("{$form->getIdentifier()}_form_submission_before", ['form' => $form, 'request' => $this->getRequest()]);
+                    $this->_eventManager->dispatch("happymachines_customforms_form_submission_before", ['form' => $form, 'request' => $this->getRequest()]);
                     $this->submissionRepository->save($submission);
                     $this->saveSubmissionFiles($submission, $uploadedFiles);
                     $this->messageManager->addComplexSuccessMessage(
@@ -187,6 +188,7 @@ class Submit extends Action implements HttpPostActionInterface
                             'success_message' => $form->getSubmissionSuccessMessage()
                         ]
                     );
+                    $this->_eventManager->dispatch("{$form->getIdentifier()}_form_submission_after", ['form' => $form, 'submission' => $submission]);
                     $this->_eventManager->dispatch('happymachines_customforms_form_submission_after', ['form' => $form, 'submission' => $submission]);
                 }
             } catch (\Exception $exception) {
