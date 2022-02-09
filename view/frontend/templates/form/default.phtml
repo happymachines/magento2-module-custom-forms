@@ -12,7 +12,8 @@ $formViewModel = $block->getViewModel();
                 <?= $formViewModel->filterContent($formViewModel->getBeforeFormContent()) ?>
             </div>
         <?php endif; ?>
-        <form id="happymachines-customform-<?= $formViewModel->getIdentifier() ?>" class="form happymachines-customform-form happymachines-customform-<?= $formViewModel->getIdentifier() ?> <?= $formViewModel->getIdentifier() ?>"
+        <form id="happymachines-customform-<?= $formViewModel->getIdentifier() ?>"
+              class="form happymachines-customform-form happymachines-customform-<?= $formViewModel->getIdentifier() ?> <?= $formViewModel->getIdentifier() ?>"
               method="post" action="<?= $escaper->escapeUrl($formViewModel->getFormActionUrl()) ?>" enctype="multipart/form-data"
               data-hasRequired="<?= $escaper->escapeHtmlAttr(__('* Required Fields')) ?>">
             <?= $block->getBlockHtml('formkey') ?>

@@ -48,6 +48,11 @@ class ValueProvider
     protected $logger;
 
     /**
+     * @var array
+     */
+    protected $customerGroups;
+
+    /**
      * Initialize dependencies.
      *
      * @param GroupRepositoryInterface $groupRepository
@@ -89,7 +94,8 @@ class ValueProvider
                                 'arguments' => [
                                     'data' => [
                                         'config' => [
-                                            'options' => $this->objectConverter->toOptionArray($this->getCustomerGroups(), 'id', 'code'),
+                                            'options' => $this->getCustomerGroups(),
+                                            'default' => $this->getCustomerGroupDefault()
                                         ]
                                     ]
                                 ]
@@ -134,19 +140,27 @@ class ValueProvider
     }
 
     /**
-     * @return array|GroupInterface[]
+     * @return array
      */
     private function getCustomerGroups()
     {
-        $customerGroups = [];
-
-        try {
-            $customerGroups = $this->groupRepository->getList($this->searchCriteriaBuilder->create())->getItems();
-        } catch (\Exception $exception) {
-            $this->logger->error($exception->getMessage());
+        if (!$this->customerGroups) {
+            try {
+                $this->customerGroups = $this->groupRepository->getList($this->searchCriteriaBuilder->create())->getItems();
+            } catch (\Exception $exception) {
+                $this->logger->error($exception->getMessage());
+            }
         }
 
-        return $customerGroups;
+        return $this->objectConverter->toOptionArray($this->customerGroups, 'id', 'code');
+    }
+
+    /**
+     * @return array
+     */
+    private function getCustomerGroupDefault()
+    {
+        return array_column($this->getCustomerGroups(), 'id');
     }
 
     /**
@@ -154,26 +168,31 @@ class ValueProvider
      */
     private function getEmailTemplates()
     {
-        $customTemplates = $this->getCustomEmailTemplates();
-        $configEmailTemplates = $this->getConfigEmailTemplates();
+        $customTemplates = $this->getCustomEmailTemplatesArray();
+        $configEmailTemplates = $this->getDefaultTemplatesArray();
 
-        return [
-            [
-                'label' => __('Custom Email Templates'),
-                'value' => $customTemplates
-            ],
-            [
-                'label' => __('Email Templates'),
-                'value' => $configEmailTemplates
-            ]
-        ];
+        foreach ($configEmailTemplates as $emailTemplate) {
+            $groupedOptions[$emailTemplate['group']][] = $emailTemplate;
+        }
+
+        ksort($groupedOptions);
+
+        $result = [];
+
+        foreach ($groupedOptions as $groupName => $emailTemplates) {
+            $result[] = ['label' => $groupName, 'value' => $emailTemplates];
+        }
+
+        array_unshift($result, ['label' => __('Custom Email Templates'), 'value' => $customTemplates]);
+
+        return $result;
     }
 
     /**
      * Get custom email templates defined in Admin > Marketing > (Communications) Email Templates
      * @return mixed
      */
-    private function getCustomEmailTemplates()
+    private function getCustomEmailTemplatesArray()
     {
         $collection = $this->emailTemplateCollectionFactory->create();
 
@@ -187,11 +206,21 @@ class ValueProvider
     }
 
     /**
-     * Get email templates defined in email_templates.xml
-     * @return array[]
+     * Get email templates defined in email_templates.xml as a sorted array
+     *
+     * @return array
      */
-    private function getConfigEmailTemplates()
+    protected function getDefaultTemplatesArray()
     {
-        return $this->emailConfig->getAvailableTemplates();
+        $options = $this->emailConfig->getAvailableTemplates();
+
+        uasort(
+            $options,
+            static function (array $firstElement, array $secondElement) {
+                return strcmp((string)$firstElement['label'], (string)$secondElement['label']);
+            }
+        );
+
+        return $options;
     }
 }

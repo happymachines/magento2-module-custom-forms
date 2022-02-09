@@ -113,7 +113,12 @@ class Form extends Template
      */
     protected function _prepareLayout()
     {
-        $this->buildForm($this->getForm());
+        $formFieldsBlockName = "{$this->getNameInLayout()}.form.fields";
+
+        if (!$this->getLayout()->getBlock($formFieldsBlockName)) {
+            $this->buildForm($this->getForm());
+        }
+
         return $this;
     }
 
@@ -170,12 +175,12 @@ class Form extends Template
         $fieldBlockParent = $formFieldsContainer;
 
         foreach ($form->getFields() as $fieldIndex => $field) {
-            $fieldBlockName = 'field.' . $field->getName() . '.' . $fieldIndex;
+            $fieldBlockName = "field.{$field->getName()}";
             $fieldBlock = $this->fieldBlockPool->getFieldBlock($field);
             $fieldBlock->setData('form', $form);
 
             if ($field->isFieldsetStart()) {
-                $fieldsetName = 'fieldset.' . $fieldIndex;
+                $fieldsetName = 'fieldset';
                 $fieldsetBlockData = [
                     'template' => 'HappyMachines_CustomForms::fields/fieldset.phtml'
                 ];
@@ -225,7 +230,7 @@ class Form extends Template
     {
         $formId = $this->getData('form_id');
 
-        return 'form.' . $formId . '.recaptcha';
+        return "form.{$formId}.recaptcha";
     }
 
     /**
