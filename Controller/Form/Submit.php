@@ -23,6 +23,7 @@ use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Data\Form\FormKey\Validator as FormKeyValidator;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Serialize\SerializerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -178,8 +179,8 @@ class Submit extends Action implements HttpPostActionInterface
                     $data[SubmissionInterface::SUBMISSION_DATA] = $this->processSubmissionData($form, $submissionData);
                     $submission = $this->submissionFactory->create();
                     $submission->setData($data);
-                    $this->_eventManager->dispatch("{$form->getIdentifier()}_form_submission_before", ['form' => $form, 'request' => $this->getRequest()]);
-                    $this->_eventManager->dispatch("happymachines_customforms_form_submission_before", ['form' => $form, 'request' => $this->getRequest()]);
+                    $this->_eventManager->dispatch("{$form->getEventIdentifier()}_form_submission_before", ['form' => $form, 'submission' => $submission]);
+                    $this->_eventManager->dispatch("happymachines_customforms_form_submission_before", ['form' => $form, 'submission' => $submission]);
                     $this->submissionRepository->save($submission);
                     $this->saveSubmissionFiles($submission, $uploadedFiles);
                     $this->messageManager->addComplexSuccessMessage(
@@ -188,9 +189,12 @@ class Submit extends Action implements HttpPostActionInterface
                             'success_message' => $form->getSubmissionSuccessMessage()
                         ]
                     );
-                    $this->_eventManager->dispatch("{$form->getIdentifier()}_form_submission_after", ['form' => $form, 'submission' => $submission]);
+                    $this->_eventManager->dispatch("{$form->getEventIdentifier()}_form_submission_after", ['form' => $form, 'submission' => $submission]);
                     $this->_eventManager->dispatch('happymachines_customforms_form_submission_after', ['form' => $form, 'submission' => $submission]);
                 }
+            } catch (LocalizedException $exception) {
+                $this->messageManager->addErrorMessage($exception->getMessage());
+                $this->logger->error($exception->getMessage());
             } catch (\Exception $exception) {
                 $this->messageManager->addErrorMessage('An error occurred while submitting the form.');
                 $this->logger->error($exception->getMessage());

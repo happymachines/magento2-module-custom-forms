@@ -49,6 +49,11 @@ class Form extends AbstractModel implements FormInterface, IdentityInterface
     protected $fieldFactory;
 
     /**
+     * @var string
+     */
+    private $eventIdentifier;
+
+    /**
      * Initialize resource model
      *
      * @return void
@@ -126,6 +131,21 @@ class Form extends AbstractModel implements FormInterface, IdentityInterface
     public function getIdentifier()
     {
         return $this->getData(self::IDENTIFIER);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getEventIdentifier()
+    {
+        if ($this->eventIdentifier) {
+            return $this->eventIdentifier;
+        }
+
+        $eventIdentifier = strtolower(trim(preg_replace('/[^a-zA-Z0-9_]+/', "_", $this->getIdentifier())));
+        $this->eventIdentifier = $eventIdentifier;
+
+        return $eventIdentifier;
     }
 
     /**
