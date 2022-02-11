@@ -73,6 +73,13 @@ interface FormInterface
     public function getIdentifier();
 
     /**
+     * Get the form identifier formatted for framework event dispatch. [a-zA-Z0-9_]+
+     * Identifier will be lower-cased and non-alphanumeric characters are replaced with underscores.
+     * @return string
+     */
+    public function getEventIdentifier();
+
+    /**
      * Get the form name
      * @return string
      */
