@@ -9,7 +9,7 @@ use HappyMachines\CustomForms\Api\Data\FormInterfaceFactory;
 use HappyMachines\CustomForms\Api\FormRepositoryInterface;
 use Magento\Framework\Setup\Patch\DataPatchInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
-use Magento\Framework\Filesystem\DriverInterface as FileSystemDriver;
+use Magento\Framework\Filesystem\Driver\File as FileSystemDriver;
 
 /**
  * Class CreateDefaultForms
